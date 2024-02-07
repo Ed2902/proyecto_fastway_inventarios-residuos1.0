@@ -21,22 +21,27 @@ $telefono = $_POST['telefono'];
 $direccion = $_POST['direccion'];
 $fecha_registro = $_POST['fecha'];
 
-// Rutas de los archivos
+// Crear una carpeta para el cliente
 $targetDirectory = "../guardar/";
+$clientFolder = $targetDirectory . $nombre . "/";
+if (!file_exists($clientFolder)) {
+    mkdir($clientFolder, 0777, true); // Se crea la carpeta si no existe
+}
 
-$camara_comercio = $targetDirectory . $_FILES['camara']['name'];
-$rut = $targetDirectory . $_FILES['rut']['name'];
-$cc_representante = $targetDirectory . $_FILES['cc']['name'];
-$certificacion_comercial = $targetDirectory . $_FILES['comercial']['name'];
-$certificacion_bancaria = $targetDirectory . $_FILES['bancaria']['name'];
-$circular_170 = $targetDirectory . $_FILES['circular']['name'];
-$acuerdos_seguridad = $targetDirectory . $_FILES['seguridad']['name'];
-$estados_financieros = $targetDirectory . $_FILES['financieros']['name'];
-$autorizacion_tratamiento_datos = $targetDirectory . $_FILES['autorizacion']['name'];
-$visita = $targetDirectory . $_FILES['visita']['name'];
-$antecedentes_judiciales = $targetDirectory . $_FILES['antecedentes']['name'];
+// Rutas de los archivos
+$camara_comercio = $clientFolder . $_FILES['camara']['name'];
+$rut = $clientFolder . $_FILES['rut']['name'];
+$cc_representante = $clientFolder . $_FILES['cc']['name'];
+$certificacion_comercial = $clientFolder . $_FILES['comercial']['name'];
+$certificacion_bancaria = $clientFolder . $_FILES['bancaria']['name'];
+$circular_170 = $clientFolder . $_FILES['circular']['name'];
+$acuerdos_seguridad = $clientFolder . $_FILES['seguridad']['name'];
+$estados_financieros = $clientFolder . $_FILES['financieros']['name'];
+$autorizacion_tratamiento_datos = $clientFolder . $_FILES['autorizacion']['name'];
+$visita = $clientFolder . $_FILES['visita']['name'];
+$antecedentes_judiciales = $clientFolder . $_FILES['antecedentes']['name'];
 
-// Mover archivos subidos a la carpeta deseada en el servidor
+// Mover archivos subidos a la carpeta del cliente
 move_uploaded_file($_FILES['camara']['tmp_name'], $camara_comercio);
 move_uploaded_file($_FILES['rut']['tmp_name'], $rut);
 move_uploaded_file($_FILES['cc']['tmp_name'], $cc_representante);
