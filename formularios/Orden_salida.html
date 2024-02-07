@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orden de salida</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* Estilos para la ventana modal */
+        #myModal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: #679cd494;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #679BD4;
+            width: 60%;
+            border-radius: 25px;
+            box-shadow: 15px black;
+        }
+
+        .close {
+            color: #fe5000;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: rgb(251, 6, 6);
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+   <div class="container-fluid">
+     <div class="row">
+       <div class="col-1 d-none d-sm-block">
+         <!-- Icono de flecha hacia atrás (visible solo en pantallas mayores a 'sm') -->
+         <a href="javascript:history.back()" class="btn-link i.fasbtn btn-link mt-2 ml-2"><i class="fas fa-arrow-left" style="color: red;"></i></a>
+       </div>
+       <div class="col-11">
+         <div class="row justify-content-center">
+           <!-- Columna del formulario (75%) -->
+           <div class="col-md-9">
+             <form method="post" action="" id="myforms" class="text-center border border-light p-3 shadow-lg rounded-lg" style="border-radius: 18px; margin-top: 18px;">
+               <p class="h2 mb-4">Orden de salida Fast Way</p>
+               
+               <div class="row mb-4">
+                 <div class="col-md-6">
+                   <label for="Referencia" class="form-label">Referencia</label>
+                   <input type="text" class="form-control" id="Referencia" name="Referencia" placeholder="Referencia">
+                 </div>
+                 
+                 <div class="col-md-6">
+                   <label for="Codigo" class="form-label">Código</label>
+                   <input type="number" class="form-control" id="Codigo" name="Codigo" placeholder="Codigo">
+                 </div>
+               </div>
+               
+               <div class="mb-4">
+                 <label for="Descripcion" class="form-label">Descripción</label>
+                 <textarea class="form-control" id="Descripcion" name="Descripcion" placeholder="Descripcion" rows="4"></textarea>
+               </div>
+               
+               <div class="row mb-4">
+                 <div class="col-md-6">
+                   <label for="Lote" class="form-label">Lote</label>
+                   <input type="text" class="form-control" id="Lote" name="Lote" placeholder="Lote">
+                 </div>
+                 
+                 <div class="col-md-6">
+                   <label for="Total" class="form-label">Total</label>
+                   <input type="number" class="form-control" id="Total" name="Total" placeholder="Total">
+                 </div>
+               </div>
+
+               <button type="button" onclick="agregarFila()" class="boton_agregar btn btn-info btn-lg">Agregar</button>
+               <button type="button" onclick="limpiarFormulario()" class="boton_cancelar btn btn-secondary btn-lg">Cancelar</button>
+             </form>
+           </div>
+         </div>
+
+         <div class="row mt-4">
+          <div class="col-md-9 mx-auto">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Referencia</th>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th>Lote</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tablaBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+         <div class="row mt-4">
+           <div class="col-md-9 mx-auto text-center">
+             <!-- Botón para abrir la ventana modal -->
+             <button type="button" class="boton_enviar btn btn-success btn-lg" onclick="abrirModal()">Enviar</button>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+
+   <!-- Ventana modal -->
+   <div id="myModal" class="modal">
+    <div class="modal-content" style="margin-top: 10%;">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <form method="post" action="" id="modalForm" class="text-center border border-light p-3 shadow-lg rounded-lg" style="border-radius: 18px;">
+           <p class="h2 mb-4">Datos Adicionales</p>
+
+           <div class="mb-3 row">
+             <label for="EmpresaCliente" class="col-sm-4 col-form-label"> </label>
+             <div class="col-sm-8">
+               <input type="text" class="form-control" id="EmpresaCliente" name="EmpresaCliente" placeholder="Empresa o Cliente">
+             </div>
+           </div>
+
+           <div class="mb-3 row">
+             <label for="CCReclama" class="col-sm-4 col-form-label">C.C  (Quien Recoge)</label>
+             <div class="col-sm-8">
+               <input type="text" class="form-control" id="CCReclama" name="CCReclama" placeholder="C.C Quien Reclama">
+             </div>
+           </div>
+
+           <div class="mb-3 row">
+             <label for="Placa" class="col-sm-4 col-form-label">Placa (Quien Recoge)</label>
+             <div class="col-sm-8">
+               <input type="text" class="form-control" id="Placa" name="Placa" placeholder="Placa (Quien Recoge)">
+             </div>
+           </div>
+
+           <div class="mb-3 row">
+             <label for="TelefonoRecoge" class="col-sm-4 col-form-label">Teléfono (Quien Recoge)</label>
+             <div class="col-sm-8">
+               <input type="tel" class="form-control" id="TelefonoRecoge" name="TelefonoRecoge" placeholder="Teléfono (Quien Recoge)">
+             </div>
+           </div>
+
+           <div class="mb-3 row">
+             <label for="HoraRecogida" class="col-sm-4 col-form-label">Hora de Recogida</label>
+             <div class="col-sm-8">
+               <input type="time" class="form-control" id="HoraRecogida" name="HoraRecogida">
+             </div>
+           </div>
+
+           <div class="mb-3 row">
+            <div class="col-sm-12 text-center">
+              <button type="button" onclick="enviarDatosAdicionales()" class="btn btn-success btn-lg">Guardar</button>
+              <button type="button" onclick="cerrarModal()" class="btn btn-secondary btn-lg">Cerrar</button>
+            </div>
+          </div>
+       </form>
+   </div>
+</div>
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   <script src="../js/scrips.js"></script>
+   <script src="../js/scripsformularios.js"></script>
+   <script src="../js/modal.js"></script>
+
+   <script>
+     // Función para enviar datos
+     function enviarDatos() {
+       // Lógica para enviar los datos del formulario
+       console.log("Datos enviados");
+     }
+
+     // Funciones para la ventana modal
+     function abrirModal() {
+        document.getElementById("myModal").style.display = "block";
+     }
+
+     function cerrarModal() {
+        document.getElementById("myModal").style.display = "none";
+     }
+
+     // Función para enviar datos adicionales desde la ventana modal
+     function enviarDatosAdicionales() {
+       // Lógica para enviar los datos adicionales del formulario modal
+       console.log("Datos adicionales enviados");
+       // Puedes acceder a los datos de la ventana modal utilizando document.getElementById y los IDs de los campos
+       var empresaCliente = document.getElementById("EmpresaCliente").value;
+       var ccReclama = document.getElementById("CCReclama").value;
+       var placa = document.getElementById("Placa").value;
+       var telefonoRecoge = document.getElementById("TelefonoRecoge").value;
+       var horaRecogida = document.getElementById("HoraRecogida").value;
+       console.log("Empresa o Cliente: " + empresaCliente);
+       console.log("C.C Quien Reclama: " + ccReclama);
+       console.log("Placa (Quien Recoge): " + placa);
+       console.log("Teléfono (Quien Recoge): " + telefonoRecoge);
+       console.log("Hora de Recogida: " + horaRecogida);
+     }
+   </script>
+</body>
+</html>

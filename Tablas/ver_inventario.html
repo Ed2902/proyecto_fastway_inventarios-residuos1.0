@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+  <div class="container-fluid mt-5">
+    <div class="row">
+      <div class="col-md-12 mx-auto">
+        <div class="table-responsive">
+          <table id="miTabla" class="table table-striped table-bordered w-100 mx-auto">
+            <thead class="thead-dark">
+              <tr>
+                <th>Fecha Ingreso</th>
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Referencia</th>
+                <th>Diseño</th>
+                <th>Marca</th>
+                <th>Quien dio ingreso</th>
+                <th>FW</th>
+                <th>Total en Inventario</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaBody">
+              <!-- Aquí puedes agregar filas estáticas si es necesario -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $('#miTabla').DataTable({
+        "paging": true,
+        "ordering": true,
+        "searching": true,
+        "search": {"regex": true},
+        "searchDelay": 500,
+      });
+    });
+  </script>
+</body>
+</html>
