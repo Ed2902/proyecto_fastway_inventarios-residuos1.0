@@ -1,79 +1,84 @@
-function cambiarColorIcono(inputId, iconoId) {
-    var input = document.getElementById(inputId);
-    var icono = document.getElementById(iconoId);
+// Esta función se ejecutará cuando se seleccione un archivo en un input de tipo file
+function cambioColorIcono(inputId, iconoId) {
+    // Selecciona el input de tipo file y el icono según los IDs proporcionados
+    const inputFile = document.getElementById(inputId);
+    const icono = document.getElementById(iconoId);
 
-    // Agrega un evento de cambio al campo de tipo file
-    input.addEventListener('change', function () {
-        // Verifica si se seleccionó un archivo
-        if (input.files.length > 0) {
-            // Cambia el color del icono a verde
-            icono.style.color = '#28a745'; // Puedes ajustar el color según tu preferencia
-            icono.classList.add('archivo-seleccionado'); // Agrega la clase al icono
+    // Verifica si se seleccionó un archivo
+    inputFile.addEventListener('change', function() {
+        // Si hay un archivo seleccionado, cambia el color del icono a verde
+        if (inputFile.files.length > 0) {
+            icono.style.color = '#28a745';
         } else {
-            // Si no hay archivo seleccionado, vuelve al color original
-            icono.style.color = ''; // Vacía el color para que se use el estilo predeterminado
-            icono.classList.remove('archivo-seleccionado'); // Elimina la clase del icono
+            // Si no hay archivo seleccionado, restaura el color original del icono
+            icono.style.color = '';
         }
     });
 }
 
-// Llama a la función para cada par de campos de tipo file e icono
-cambiarColorIcono('Camara', 'camaraLabel');
-cambiarColorIcono('rut', 'rutLabel');
-cambiarColorIcono('Representante', 'representanteLabel');
-cambiarColorIcono('comercial', 'comercialLabel');
-cambiarColorIcono('bancaria', 'bancariaLabel');
-cambiarColorIcono('Circular', 'circularLabel');
+// Función para cambiar el color del icono cuando se selecciona una fecha
+function cambioColorIconoFecha(inputId, iconoId) {
+    // Selecciona el input de fecha y el icono según los IDs proporcionados
+    const inputFecha = document.getElementById(inputId);
+    const iconoFecha = document.getElementById(iconoId);
 
-function validarCamposObligatorios() {
-    var nit = document.getElementById('Nit').value.trim();
-    var nombre = document.getElementById('Nombre').value.trim();
-    var direccion = document.getElementById('Dirección').value.trim();
-    var telefono = document.getElementById('Teléfono').value.trim();
-    var camara = document.getElementById('Camara').value.trim();
-    var rut = document.getElementById('rut').value.trim();
-
-    return !(nit === '' && nombre === '' && direccion === '' && telefono === '' && camara === '' && rut === '');
+    // Verifica si se seleccionó una fecha
+    inputFecha.addEventListener('change', function() {
+        // Si hay una fecha seleccionada, cambia el color del icono a verde
+        if (inputFecha.value) {
+            iconoFecha.style.color = '#28a745';
+        } else {
+            // Si no hay fecha seleccionada, restaura el color original del icono
+            iconoFecha.style.color = '';
+        }
+    });
 }
 
-function validarTelefono() {
-    var telefono = document.getElementById('Teléfono').value.trim();
-    return telefono.length === 10 && !isNaN(telefono);
-}
+// Llama a la función para cada input de tipo file que desees que cambie de color
+cambioColorIcono('Camara', 'camaraLabel');
+cambioColorIcono('rut', 'rutLabel');
+cambioColorIcono('CC', 'CCLabel');
+cambioColorIcono('comercial', 'comercialLabel');
+cambioColorIcono('bancaria', 'bancariaLabel');
+cambioColorIcono('circular', 'circularLabel');
+cambioColorIcono('seguridad', 'seguridadLabel');
+cambioColorIcono('financieros', 'financierosLabel');
+cambioColorIcono('autorizacion', 'autorizacionLabel');
+cambioColorIcono('visita', 'visitaLabel');
+cambioColorIcono('antecedentes', 'antecedentesLabel');
 
-function validarDocumentos() {
-    var archivosSeleccionados = document.querySelectorAll('.archivo-seleccionado');
-    return archivosSeleccionados.length > 0;
-}
+// Llama a la función para el input de fecha
+cambioColorIconoFecha('fecha', 'fechaLabel');
+
+
 
 function validarFormulario() {
-    var nit = document.getElementById('Nit').value.trim();
-    var nombre = document.getElementById('Nombre').value.trim();
-    var direccion = document.getElementById('Dirección').value.trim();
-    var telefono = document.getElementById('Teléfono').value.trim();
-    var camara = document.getElementById('Camara').value.trim();
-    var rut = document.getElementById('rut').value.trim();
+    var campos = document.querySelectorAll('#cliente input, #cliente select, #cliente textarea');
+    var todosLlenos = true;
 
-    // Verifica que todos los campos sean obligatorios
-    if (nit === '' || nombre === '' || direccion === '' || telefono === '' || camara === '' || rut === '') {
-        alert('Todos los campos son obligatorios. Por favor, llene todos los campos.');
-        return false;
+    campos.forEach(function (campo) {
+        if (campo.value.trim() === '') {
+            campo.style.borderColor = 'red';
+            todosLlenos = false;
+        } else {
+            campo.style.borderColor = '';
+            // Cambiar el color del campo a negro si ya tiene algún valor y está enfocado
+            campo.style.color = '#000'; // Negro
+        }
+
+        // Cambiar el color del campo a negro cuando se enfoca si ya tiene algún valor
+        campo.addEventListener('focus', function() {
+            if (campo.value.trim() !== '') {
+                campo.style.color = '#000'; // Negro
+            }
+        });
+    });
+
+    if (!todosLlenos) {
+        alert('Por favor, llene todos los campos obligatorios.');
+        event.preventDefault();
+    } else {
+        // Si todos los campos están llenos, mostramos un mensaje de éxito
+        alert('El formulario fue enviado con éxito.');
     }
-
-    // Validación del número de teléfono
-    if (telefono.length !== 10 || isNaN(telefono)) {
-        alert('El número de teléfono debe tener exactamente 10 dígitos numéricos.');
-        return false;
-    }
-
-    // Verifica que al menos un documento haya sido seleccionado
-    var archivosSeleccionados = document.querySelectorAll('.archivo-seleccionado');
-    if (archivosSeleccionados.length === 0) {
-        alert('Al menos un documento debe ser cargado. Por favor, cargue al menos un documento.');
-        return false;
-    }
-
-    // Si todas las validaciones pasan, el formulario se enviará
-    alert('Formulario enviado con éxito!');
-    return true;
 }
