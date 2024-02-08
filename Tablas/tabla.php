@@ -8,6 +8,8 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Agregar estilos de DataTables -->
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <!-- Agregar Font Awesome para los íconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <!-- Estilos adicionales -->
     <style>
         body {
@@ -24,6 +26,12 @@
 </head>
 <body>
     <div class="container-fluid" style="width: 90%;">
+        <!-- Botón de Casa -->
+        <a href="../index.html" style="text-decoration: none;">
+            <button type="button" class="btn btn-light mr-2" style="border-radius: 50%;">
+                <i class="fas fa-home" style="font-size: 20px; color:#fe5000;"></i>
+            </button>
+        </a>
         <h1 class="mt-5 mb-3">Clientes Fast Way</h1>
         <form method="GET" class="mb-4">
             <div class="form-group">
@@ -94,6 +102,8 @@
                 </tbody>
             </table>
         </div>
+        <!-- Botón de Agregar -->
+        <button type="button" class="btn btn-success mt-3"><i class="fas fa-plus"></i> Agregar</button>
     </div>
 
     <!-- Agregar scripts de DataTables y Bootstrap al final del cuerpo del documento -->
