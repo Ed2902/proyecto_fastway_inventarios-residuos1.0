@@ -13,7 +13,7 @@
         protected $profundo;
         protected $id_usuarioFK;
 
-        public function __construct($nombre, $referencia, $marca, $tipo, $ancho, $alto, $profundo, $id_usuarioFK) {
+        public function __construct($nombre, $referencia, $marca, $tipo, $ancho, $alto, $profundo, $id_usuarioFK,$id_producto=null) {
             $this->nombre = $nombre;
             $this->referencia = $referencia;
             $this->marca = $marca;
@@ -97,27 +97,28 @@
             $this->id_usuarioFK = $id_usuarioFK;
         }
 
-        public function guardar() {
-            $conexion = new Conexion();
-            $consulta = $conexion->prepare("INSERT INTO productos (nombre, referencia, marca, tipo, ancho, alto, profundo, id_usuarioFK) VALUES(:nombre, :referencia, :marca, :tipo, :ancho, :alto, :profundo, :id_usuarioFK)");
-
-            try{
         
-            $consulta->bindParam(':nombre', $this->nombre);
-            $consulta->bindParam(':referencia', $this->referencia);
-            $consulta->bindParam(':marca', $this->marca);
-            $consulta->bindParam(':tipo', $this->tipo);
-            $consulta->bindParam(':ancho', $this->ancho);
-            $consulta->bindParam(':alto', $this->alto);
-            $consulta->bindParam(':profundo', $this->profundo);
-            $consulta->bindParam(':id_usuarioFK', $this->id_usuarioFK);
-            $consulta->execute();
-            $this->id_producto = $conexion->lastInsertId();
-
-            echo "producto guardado con exito";
-            
-            } catch (PDOException $e) {
-                echo " hay error". $e->getMessage();
+        public function guardar() {
+                $conexion = new Conexion();
+                $consulta = $conexion->prepare("INSERT INTO producto (nombre, referencia, marca, tipo, ancho, alto, profundo, id_usuarioFK) VALUES(:nombre, :referencia, :marca, :tipo, :ancho, :alto, :profundo, :id_usuarioFK)");
+        
+                try {
+                    $consulta->bindParam(':nombre', $this->nombre);
+                    $consulta->bindParam(':referencia', $this->referencia);
+                    $consulta->bindParam(':marca', $this->marca);
+                    $consulta->bindParam(':tipo', $this->tipo);
+                    $consulta->bindParam(':ancho', $this->ancho);
+                    $consulta->bindParam(':alto', $this->alto);
+                    $consulta->bindParam(':profundo', $this->profundo);
+                    $consulta->bindParam(':id_usuarioFK', $this->id_usuarioFK);
+                    $consulta->execute();
+                    
+        
+                    echo "Producto guardado con éxito";
+                    
+                } catch (PDOException $e) {
+                    echo "Hay un error: " . $e->getMessage();
+                }
             }
-        }
+        
 }
