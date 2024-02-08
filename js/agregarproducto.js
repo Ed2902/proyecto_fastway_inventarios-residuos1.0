@@ -6,3 +6,8 @@ function obtenerSiguienteIDProducto() {
     })
     .catch(error => console.error('Error al obtener el siguiente ID de producto:', error));
 }
+
+// Llama a la función para obtener el próximo ID del producto cuando se carga la página
+window.onload = function() {
+    obtenerSiguienteIDProducto();
+};
