@@ -1,3 +1,10 @@
+    <?php    
+        require_once('../clases/producto.php');
+        require_once('../clases/producto.php');
+
+        $ultimoIdDisponible = Producto::obtenerUltimoIdDisponible();
+    ?>
+    
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -25,10 +32,10 @@
                                 <p class="h2 mb-4">Ingreso de productos</p>
 
                                 <div class="row mb-4">
-                                    <div class="col-md-6">
+                                <div class="col-md-6">
                                         <label for="id_producto" class="form-label">ID Producto</label>
-                                        <input type="text" class="form-control" id="id_producto" name="id_producto" readonly>
-                                    </div>                                    
+                                        <input type="text" class="form-control" id="id_producto" name="id_producto" value="<?php echo isset($idProductoGuardado) ? $idProductoGuardado : $ultimoIdDisponible; ?>" readonly>
+                                </div>                                  
                                     <div class="col-md-6">
                                         <label for="nombre" class="form-label">Nombre</label>
                                         <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">

@@ -99,28 +99,42 @@
             $this->id_usuarioFK = $id_usuarioFK;
         }
 
+        public static function obtenerUltimoIdDisponible() {
+            $conexion = new Conexion();
+            $consulta = $conexion->prepare('SELECT MAX(ID_Producto) AS ultimo_id FROM producto');
+            $consulta->execute();
+            $ultimoId = $consulta->fetch(PDO::FETCH_ASSOC)['ultimo_id'];
+            return $ultimoId !== null ? $ultimoId + 1 : 1;
+        }
         
+
         public function guardar() {
-                $conexion = new Conexion();
-                $consulta = $conexion->prepare("INSERT INTO producto (nombre, referencia, marca, tipo, ancho, alto, profundo, id_usuarioFK) VALUES(:nombre, :referencia, :marca, :tipo, :ancho, :alto, :profundo, :id_usuarioFK)");
+            $conexion = new Conexion();
+            $consulta = $conexion->prepare("INSERT INTO producto (nombre, referencia, marca, tipo, ancho, alto, profundo, id_usuarioFK) VALUES(:nombre, :referencia, :marca, :tipo, :ancho, :alto, :profundo, :id_usuarioFK)");
         
-                try {
-                    $consulta->bindParam(':nombre', $this->nombre);
-                    $consulta->bindParam(':referencia', $this->referencia);
-                    $consulta->bindParam(':marca', $this->marca);
-                    $consulta->bindParam(':tipo', $this->tipo);
-                    $consulta->bindParam(':ancho', $this->ancho);
-                    $consulta->bindParam(':alto', $this->alto);
-                    $consulta->bindParam(':profundo', $this->profundo);
-                    $consulta->bindParam(':id_usuarioFK', $this->id_usuarioFK);
-                    $consulta->execute();
-                    
+            try {
+                $consulta->bindParam(':nombre', $this->nombre);
+                $consulta->bindParam(':referencia', $this->referencia);
+                $consulta->bindParam(':marca', $this->marca);
+                $consulta->bindParam(':tipo', $this->tipo);
+                $consulta->bindParam(':ancho', $this->ancho);
+                $consulta->bindParam(':alto', $this->alto);
+                $consulta->bindParam(':profundo', $this->profundo);
+                $consulta->bindParam(':id_usuarioFK', $this->id_usuarioFK);
+                $consulta->execute();
         
-                    echo "Producto guardado con éxito";
-                    
-                } catch (PDOException $e) {
-                    echo "Hay un error: " . $e->getMessage();
-                }
+                // Obtener el ID del producto recién insertado
+                $this->id_producto = $conexion->lastInsertId();
+                
+                echo "Producto guardado con éxito";
+                
+                // Devolver el ID del producto
+                return $this->id_producto;
+                
+            } catch (PDOException $e) {
+                echo "Hay un error: " . $e->getMessage();
+                return false; // En caso de error, devuelve falso
             }
+        }
         
 }
