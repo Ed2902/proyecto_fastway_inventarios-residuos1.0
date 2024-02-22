@@ -1,7 +1,5 @@
 <?php
-
     require_once("../clases/producto.php");
-
 ?>
 
 <!DOCTYPE html>
@@ -32,8 +30,16 @@
 </head>
 <body>
     <div class="container-fluid" style="width: 90%;">
+        <!-- Botón de Casa -->
+        <a href="../index.html" style="text-decoration: none;">
+            <button type="button" class="btn btn-light mr-2" style="border-radius: 50%; background-color:white;">
+                <i class="fas fa-home" style="font-size: 20px; color: #fe5000;"></i>
+            </button>
+        </a>
         <!-- Título -->
         <h1 class="mt-5 mb-3">Productos</h1>
+        <!-- Formulario de Búsqueda -->
+        
         <div class="table-responsive">
             <table id="tablaProductos" class="table table-striped table-bordered">
                 <thead>
@@ -76,6 +82,12 @@
                 </tbody>
             </table>
         </div>
+        <!-- Botón de Agregar -->
+        <a href="../formularios/producto.php" style="text-decoration: none;">
+            <button type="button" class="btn btn-success mt-3">
+                <i class="fas fa-plus"></i> Agregar
+            </button>
+        </a>
     </div>
 
     <!-- Agregar scripts de DataTables y Bootstrap al final del cuerpo del documento -->
@@ -84,7 +96,9 @@
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#tablaProductos').DataTable();
+            $('#tablaProductos').DataTable({
+                "searching": true 
+            });
         });
     </script>
 </body>
