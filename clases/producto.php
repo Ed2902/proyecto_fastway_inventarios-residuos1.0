@@ -136,5 +136,31 @@
                 return false; // En caso de error, devuelve falso
             }
         }
+
+        public static function obtenerProductos() {
+            $conexion = new Conexion();
+            $sql = "SELECT producto.id_producto, 
+                           producto.nombre, 
+                           producto.referencia, 
+                           producto.marca, 
+                           producto.tipo, 
+                           producto.ancho, 
+                           producto.alto, 
+                           producto.profundo, 
+                           usuario.nombre AS nombre_usuario 
+                    FROM producto 
+                    INNER JOIN usuario ON producto.id_usuarioFK = usuario.id_usuario";
+        
+            $consulta = $conexion->prepare($sql);
+            
+            try {
+                $consulta->execute();
+                $productos = $consulta->fetchAll(PDO::FETCH_OBJ);
+                return $productos;
+            } catch (PDOException $e) {
+                echo "Error al obtener los productos: " . $e->getMessage();
+                return null;
+            }
+        }
         
 }
