@@ -65,4 +65,15 @@
     display: block;
   }
   
-  
+
+/* Estilos para centrar datos en la tabla */
+.table td {
+    text-align: center;
+}
+
+/* Espacio entre los botones y las cantidades */
+.boton_agregar,
+.boton_cancelar {
+    margin-top: 10px; /* Ajusta según sea necesario */
+    margin-right: 10px; /* Ajusta según sea necesario */
+}

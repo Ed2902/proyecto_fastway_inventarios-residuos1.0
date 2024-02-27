@@ -2,6 +2,7 @@ var inventarioData = [];  // Array para almacenar los datos del inventario
 
 function agregarFilaTabla() {
     var codigoProducto = document.getElementById("CodigoProducto").value;
+    var nombre = document.getElementById("nombre").value; // Nuevo campo agregado
     var referencia = document.getElementById("Referencia").value;
     var tipo = document.getElementById("tipo").value;
     var marca = document.getElementById("Marca").value;
@@ -9,14 +10,8 @@ function agregarFilaTabla() {
     var Fw = document.getElementById("FW").value;
     var cantidadesAgregar = document.getElementById("CantidadesAgregar").value;
 
-    if (!referencia || !tipo || !marca || !quienDaIngreso || !Fw || !cantidadesAgregar) {
+    if (!nombre || !referencia || !tipo || !marca || !quienDaIngreso || !Fw || !cantidadesAgregar) {
         alert("Todos los campos son obligatorios. Por favor, complete todos los campos.");
-        return;
-    }
-
-    // Validar que Quién da el ingreso sea un valor de texto
-    if (!/^[A-Za-z\s]+$/.test(quienDaIngreso)) {
-        alert("Por favor, ingrese un valor de texto en el campo 'Quién da el ingreso'.");
         return;
     }
 
@@ -36,33 +31,43 @@ function agregarFilaTabla() {
     var cell6 = newRow.insertCell(5);
     var cell7 = newRow.insertCell(6);
     var cell8 = newRow.insertCell(7);
+    var cell9 = newRow.insertCell(8); // Nueva celda para acciones
 
     cell1.innerHTML = codigoProducto;
-    cell2.innerHTML = referencia;
-    cell3.innerHTML = tipo;
-    cell4.innerHTML = marca;
-    cell5.innerHTML = quienDaIngreso;
-    cell6.innerHTML = Fw;
-    cell7.innerHTML = cantidadesAgregar;
+    cell2.innerHTML = nombre; // Nuevo campo agregado
+    cell3.innerHTML = referencia;
+    cell4.innerHTML = tipo;
+    cell5.innerHTML = marca;
+    cell6.innerHTML = quienDaIngreso;
+    cell7.innerHTML = Fw;
+    cell8.innerHTML = cantidadesAgregar;
 
     // Crear botones de acciones
+    var actionsDiv = document.createElement("div");
+    actionsDiv.className = "btn-group";
+    actionsDiv.role = "group";
+
     var editButton = document.createElement("button");
-    editButton.setAttribute("class", "btn btn-warning btn-sm");
-    editButton.setAttribute("onclick", "editarFila(this)");
+    editButton.className = "btn btn-warning btn-sm";
+    editButton.type = "button";
     editButton.innerHTML = "Editar";
+    editButton.onclick = function() { editarFila(this); };
 
     var deleteButton = document.createElement("button");
-    deleteButton.setAttribute("class", "btn btn-danger btn-sm");
-    deleteButton.setAttribute("onclick", "eliminarFila(this)");
+    deleteButton.className = "btn btn-danger btn-sm";
+    deleteButton.type = "button";
     deleteButton.innerHTML = "Eliminar";
+    deleteButton.onclick = function() { eliminarFila(this); };
 
-    // Agregar botones a la celda de acciones
-    cell8.appendChild(editButton);
-    cell8.appendChild(deleteButton);
+    actionsDiv.appendChild(editButton);
+    actionsDiv.appendChild(deleteButton);
+
+    cell9.appendChild(actionsDiv); // Agregar acciones a la nueva celda
 
     // Almacenar datos en el array
     var filaDatos = {
         CodigoProducto: codigoProducto,
+        Nombre: nombre, // Nuevo campo agregado
         Referencia: referencia,
         Tipo: tipo,  
         Marca: marca,
@@ -77,32 +82,34 @@ function agregarFilaTabla() {
 }
 
 function editarFila(button) {
-    var row = button.parentNode.parentNode;
-    var rowIndex = row.cells[0].innerHTML;
+    var row = button.parentNode.parentNode.parentNode;
+    var rowIndex = row.rowIndex;
 
     // Actualizar el índice en el campo oculto
     document.getElementById("RowIndex").value = rowIndex;
 
     // Resto de tu código para llenar el formulario con los datos de la fila
     document.getElementById("CodigoProducto").value = row.cells[0].innerHTML;
-    document.getElementById("Referencia").value = row.cells[1].innerHTML;
-    document.getElementById("tipo").value = row.cells[2].innerHTML;
-    document.getElementById("Marca").value = row.cells[3].innerHTML;
-    document.getElementById("QuienDaIngreso").value = row.cells[4].innerHTML;
-    document.getElementById("FW").value = row.cells[5].innerHTML;
-    document.getElementById("CantidadesAgregar").value = row.cells[6].innerHTML;
+    document.getElementById("nombre").value = row.cells[1].innerHTML; // Nuevo campo agregado
+    document.getElementById("Referencia").value = row.cells[2].innerHTML;
+    document.getElementById("tipo").value = row.cells[3].innerHTML;
+    document.getElementById("Marca").value = row.cells[4].innerHTML;
+    document.getElementById("QuienDaIngreso").value = row.cells[5].innerHTML;
+    document.getElementById("FW").value = row.cells[6].innerHTML;
+    document.getElementById("CantidadesAgregar").value = row.cells[7].innerHTML;
 
     // Eliminar la fila al editar
     row.parentNode.removeChild(row);
 }
 
 function eliminarFila(button) {
-    var row = button.parentNode.parentNode;
+    var row = button.parentNode.parentNode.parentNode;
     row.parentNode.removeChild(row);
 }
 
 function limpiarFormulario() {
     document.getElementById("CodigoProducto").value = "";
+    document.getElementById("nombre").value = ""; // Nuevo campo agregado
     document.getElementById("Referencia").value = "";
     document.getElementById("tipo").value = "";
     document.getElementById("Marca").value = "";
