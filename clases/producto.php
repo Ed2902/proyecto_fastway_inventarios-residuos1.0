@@ -162,5 +162,21 @@
                 return null;
             }
         }
+
+        public static function obtenerProductoPorId($idProducto) {
+            $conexion = new Conexion();
+            $sql = "SELECT * FROM producto WHERE id_producto = :id";
+            $consulta = $conexion->prepare($sql);
+            
+            try {
+                $consulta->bindParam(':id', $idProducto);
+                $consulta->execute();
+                $producto = $consulta->fetch(PDO::FETCH_ASSOC);
+                return $producto;
+            } catch (PDOException $e) {
+                echo "Error al obtener el producto: " . $e->getMessage();
+                return null;
+            }
+        }
         
 }

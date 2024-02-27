@@ -27,7 +27,7 @@
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <label for="CodigoProducto" class="form-label">Código Producto</label>
-                                    <input type="text" class="form-control" id="CodigoProducto" name="ID_Producto" placeholder="Código Producto">
+                                    <input type="text" class="form-control" id="CodigoProducto" name="id_producto" placeholder="Código Producto">
                                 </div>
                             
                                 <div class="col-md-6">
@@ -39,7 +39,7 @@
                             <div class="row mb-4">           
                                 <div class="col-md-6 mx-auto"> <!-- Utilizamos la clase 'mx-auto' para centrar el div -->
                                     <label for="Referencia" class="form-label">Referencia</label>
-                                    <input type="text" class="form-control" id="Referencia" name="Referencia" placeholder="Referencia">
+                                    <input type="text" class="form-control" id="Referencia" name="referencia" placeholder="Referencia">
                                 </div>
                             </div>
                             
@@ -51,26 +51,26 @@
                             
                                 <div class="col-md-6">
                                     <label for="Marca" class="form-label">Marca</label>
-                                    <input type="text" class="form-control" id="Marca" name="Marca" placeholder="Marca">
+                                    <input type="text" class="form-control" id="Marca" name="marca" placeholder="Marca">
                                 </div>
                             </div>
 
                            <div class="row mb-4">           
                                 <div class="col-md-6 mx-auto">
                                 <label for="QuienDaIngreso" class="form-label">Quién da el ingreso</label>
-                                <input type="number" class="form-control" id="QuienDaIngreso" name="ID_Usuario" placeholder="Quién da el ingreso">
+                                <input type="number" class="form-control" id="QuienDaIngreso" name="id_usuarioFK" placeholder="Quién da el ingreso">
                                 </div>
                             </div>
                             
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <label for="FW" class="form-label">FW</label>
-                                    <input type="text" class="form-control" id="FW" name="FW" placeholder="FW">
+                                    <input type="text" class="form-control" id="FW" name="fw" placeholder="FW">
                                 </div>
                             
                                 <div class="col-md-6">
                                     <label for="CantidadesAgregar" class="form-label">Cantidades a Agregar</label>
-                                    <input type="number" class="form-control" id="CantidadesAgregar" name="Cantidad" placeholder="Cantidades a Agregar">
+                                    <input type="number" class="form-control" id="CantidadesAgregar" name="cantidad" placeholder="Cantidades a Agregar">
                                 </div>
                             </div>
                             <button type="button" onclick="agregarFilaTabla()" class="boton_agregar btn btn-info btn-lg">Agregar</button>
@@ -118,6 +118,32 @@
     <script src="path/to/jquery.min.js"></script>
     <script src="path/to/bootstrap.bundle.min.js"></script>
 
+    <script>
+        document.getElementById('CodigoProducto').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                var idProducto = document.getElementById('CodigoProducto').value;
+                fetch('../objetos_guardar/obtener_producto.php?id=' + idProducto)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById('nombre').value = data.producto.nombre;
+                            document.getElementById('Referencia').value = data.producto.referencia;
+                            document.getElementById('tipo').value = data.producto.tipo;
+                            document.getElementById('Marca').value = data.producto.marca;
+                        } else {
+                            alert('No se encontró el producto con el ID proporcionado.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        });
+    </script>
+
+
 </body>
 
 </html>
+
+?>
