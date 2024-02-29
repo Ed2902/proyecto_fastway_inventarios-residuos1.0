@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function enviarDatosAlServidor() {
     // Realizar una solicitud POST a tu script PHP
-    fetch('../guardar/guardarproducto.php', {
+    fetch('../', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
