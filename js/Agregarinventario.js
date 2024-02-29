@@ -118,6 +118,27 @@ function limpiarFormulario() {
     document.getElementById("CantidadesAgregar").value = "";
 }
 
+// Función para hacer los campos de entrada no modificables, excepto ciertos campos
+function hacerCamposNoModificablesExceptoAlgunos() {
+    // Obtenemos todos los elementos de entrada dentro del formulario
+    var camposEntrada = document.querySelectorAll('input[type="text"], input[type="number"]');
+    
+    // Iteramos sobre cada campo de entrada
+    camposEntrada.forEach(function(campo) {
+        // Verificamos si el campo no es alguno de los campos que queremos excluir
+        if (campo.id !== 'CodigoProducto' && campo.id !== 'QuienDaIngreso' && campo.id !== 'FW' && campo.id !== 'CantidadesAgregar') {
+            // Hacemos que el campo sea no modificable
+            campo.setAttribute('readonly', 'true');
+        }
+    });
+}
+
+// Llamamos a la función después de cargar el DOM
+document.addEventListener('DOMContentLoaded', function() {
+    hacerCamposNoModificablesExceptoAlgunos();
+});
+
+
 function enviarDatosAlServidor() {
     // Realizar una solicitud POST a tu script PHP
     fetch('../guardar/guardarproducto.php', {
