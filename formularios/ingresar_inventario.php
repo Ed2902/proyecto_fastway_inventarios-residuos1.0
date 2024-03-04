@@ -21,7 +21,7 @@
                 <div class="row justify-content-center">
                     <!-- Columna del formulario (75%) -->
                     <div class="col-md-9">
-                        <form method="post" action="" id="myforms" class="text-center border border-light p-3 shadow-lg rounded-lg" style="border-radius: 18px; margin-top: 18px;">
+                    <form method="post" action="../objetos_guardar/guardar_inventario.php" id="myforms" class="text-center border border-light p-3 shadow-lg rounded-lg" style="border-radius: 18px; margin-top: 18px;">
                             <p class="h2 mb-4">Ingreso de Inventario</p>
 
                             <div class="row mb-4">
@@ -106,14 +106,13 @@
                 <div class="row mt-4">
                     <div class="col-md-9 mx-auto text-center">
                         <!-- Botón enviar -->
-                        <button type="button" id="enviarButton" class="boton_enviar btn btn-success btn-lg">Enviar</button>
+                        <button type="button" id="enviarButton" class="boton_enviar btn btn-success btn-lg" onclick="enviarDatosAlServidor()">Enviar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="../js/scrips.js"></script>
     <script src="../js/Agregarinventario.js"></script>
    
 
@@ -128,7 +127,6 @@
                             document.getElementById('nombre').value = data.producto.nombre;
                             document.getElementById('Referencia').value = data.producto.referencia;
                             document.getElementById('tipo').value = data.producto.tipo;
-                            document.getElementById('Marca').value = data.producto.marca;
                         } else {
                             alert('No se encontró el producto con el ID proporcionado.');
                         }
