@@ -1,168 +1,531 @@
-<!-- hola todos -->
-
 <!DOCTYPE html>
-<html lang="es">
-
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sistema POO :: Menú de Iconos</title>
-  <link rel="shortcut icon" href="./img/logo.png">
-  <!-- Última versión compilada y minimizada de CSS de Bootstrap -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" 
-  integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-  <!-- jQuery de Bootstrap -->
-  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/mark.js/8.6.0/jquery.mark.min.js"></script>
-  <!-- Shim de HTML5 y Respond.js para el soporte de IE8 a elementos y consultas de medios de HTML5 -->
-  <!-- ADVERTENCIA: Respond.js no funciona si visualiza la página a través de file:// -->
-  <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  <!-- Última versión compilada y minimizada de JavaScript de Bootstrap -->
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-  <!-- Hoja de estilo para la barra lateral de Bootstrap -->
-  <link href="./css/bootstrap-sidebar.css" rel="stylesheet">
-  <link rel="stylesheet" href="./css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orange Sphere Animation</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<style>
 
+ body {
+    background-image: url('./img/vecteezy_white-background-with-orange-geometric_11171105.jpg');
+    color: #555555;
+    font-family: sans-serif;
+    margin: 0;
+    overflow: hidden;
+    transition: background-color 0.5s ease; /* Agrega una transición para cambiar el color de fondo */
+  }
+
+  .white-background {
+    background-color: white; /* Establece un color de fondo blanco */
+  }
+  .boton-contenedor {
+    text-align: left; /* Alinea el contenido del contenedor a la izquierda */
+  }
+
+  @media (max-width: 600px) {
+    .boton-contenedor {
+      text-align: center; /* Centra el botón en pantallas pequeñas si es necesario */
+    }
+  }
+ 
+
+  #btnIngresar {
+    display: none; /* Esto oculta el botón */
+    width: 5%;
+    margin-left: 45%;
+    text-align: center;
+  }
+
+  body {
+    background-image:url('./img/vecteezy_white-background-with-orange-geometric_11171105.jpg');
+    color:#555555;
+    font-family: sans-serif;
+    margin: 0;
+    overflow: hidden;
+  }
+    
+  h4 {
+    font-size: 16px;
+  }
+  
+  p {
+    font-size: 14px;
+    color: #888888;
+  }
+  
+  a {
+    color: #d15423;
+    text-decoration: none;
+  }
+  
+  .slider {
+    display: block;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0);
+    width: 80%; /* Ajustado para ocupar el 80% del ancho del contenedor */
+    max-width: 1000px;
+    height: auto;
+  }
+  
+  canvas {
+    display: block;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    max-width: 1000px; /* Ajuste máximo para dispositivos grandes */
+    height: auto;
+  }
+
+  #image {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 16%; /* La imagen se ajustará al ancho del viewport */
+    height: auto; /* El alto se ajustará automáticamente */
+  }
+
+@media (max-width: 600px) {
+  #image {
+    max-width: 21%;
+    top: 18%;
+  }
+
+  .slider {
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  canvas {
+    margin-top: 10%;
+    max-height: 90%;
+  }
+
+  #btnIngresar {
+    display: none; /* Esto oculta el botón */
+    width: 10%;
+    margin-left: 35%;
+    text-align: center;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  #image {
+    max-width: 30%;
+    top: 25%;
+  }
+
+  .slider {
+    width: 70%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  canvas {
+    margin-top: 5%;
+    max-height: 80%;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1000px) {
+  canvas {
+    margin-top: 15%;
+    max-width: 800px;
+  }
+
+  #image {
+    max-width: 18%;
+    top: 20%;
+  }
+
+  .slider {
+    width: 500px;
+  }
+}
+
+/* Estilos y efectos del botón */
+.bubbly-button {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  display: inline-block;
+  font-size: 1em;
+  padding: 1em 2em;
+  margin-top: 20px;
+  background-color: #6c99fa; /* Fucsia */
+  color: #f65b13d2;
+  border-radius: 4px;
+  border: 0.5px solid black;
+  cursor: pointer;
+  position: relative;
+  transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
+  box-shadow: 0 2px 25px rgba(25, 57, 240, 0.5);
+}
+
+.bubbly-button:focus {
+  outline: 0;
+}
+
+.bubbly-button:active {
+  transform: scale(0.9);
+  background-color: #f65b13d2; /* Naranja */
+  box-shadow: 0 2px 25px rgba(212, 84, 150, 0.2);
+  color: #000000;
+}
+
+.bubbly-button.animate:before, .bubbly-button.animate:after {
+  display: block;
+  animation-duration: 0.75s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+.bubbly-button.animate:before {
+  animation-name: topBubbles;
+}
+
+.bubbly-button.animate:after {
+  animation-name: bottomBubbles;
+}
+
+
+
+@keyframes topBubbles {
+  /* Tu animación aquí */
+}
+
+@keyframes bottomBubbles {
+  /* Tu animación aquí */
+}
+</style>
 </head>
-
 <body>
-  <!-- Contenedor de Bootstrap -->
-  <div id="wrapper">
-    <!-- Navegación -->
-    <nav class="navbar navbar-light navbar-fixed-top" style="background-color: #f65b13d2;">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Alternar navegación</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#menu-toggle" id="menu-toggle"> <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>  <h1 class="h3 text-right"></h1> 
-          </a>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Perfil</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Configuración</a></li>
-              </ul>
-            </li>
-            <li><a href="#"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></a></li>
-          </ul>
-        </div>
+    <img id="image" src="./img/OIP-M4oKO7TNV-transformed-PhotoRoom.png-PhotoRoom.png">
+    <div style="text-align:center">
+      <div class="slider" id="slider-range"></div>
+      <div class="slider" id="slider-test"></div>
+      <canvas id="canvasOne" width="900" height="520"></canvas>
+      <div class="boton-contenedor">
+        <a id="btnIngresar" class="bubbly-button" href="#">Ingresar</a>
       </div>
-    </nav>
+    </div>
 
-    <div id="bootstrap-sidebar" class="dark-theme icon-menu">
-      <ul class="sidebar-nav">
-        <li class="active" data-tooltip="Inicio"> <a href="/index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> <span class="menu-text">Inicio</span></a></li>
-        <li data-tooltip="Consulta Categoría"> <a href="./Tablas/TESTECONS.php"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span> <span class="menu-text">Consulta Categoría</span></a></li>
-        <li data-tooltip="Reportes"> <a href="/Tablas/CompraMostrar.php"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> <span class="menu-text">Reportes</span></a></li>
-        <li data-tooltip="Catálogo"> <a href="#"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> <span class="menu-text">Catálogo</span></a></li>
-        <li data-tooltip="Bandeja de entrada"> <a href="#"><span class="glyphicon glyphicon-inbox" aria-hidden="true"></span> <span class="menu-text">Bandeja de entrada</span></a></li>
-        <li data-tooltip="Favoritos"> <a href="#"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> <span class="menu-text">Favoritos</span></a></li>
-        <li data-tooltip="Activos"> <a href="#"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> <span class="menu-text">Activos</span></a></li>
-        <li data-tooltip="Tareas"> <a href="#"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> <span class="menu-text">Tareas</span></a></li>
-        <li data-tooltip="Localización"> <a href="#"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> <span class="menu-text">Localización</span></a></li>
-        <li data-tooltip="Pagos"> <a href="#"><span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span> <span class="menu-text">Pagos</span></a></li>
-        <li data-tooltip="Entrenamiento"> <a href="#"><span class="glyphicon glyphicon-education" aria-hidden="true"></span> <span class="menu-text">Entrenamiento</span></a></li>
-        <li data-tooltip="Personalización"> <a href="#"><span class="glyphicon glyphicon-scissors" aria-hidden="true"></span> <span class="menu-text">Personalización</span></a></li>
-        <li data-tooltip="Usuarios"> <a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <span class="menu-text">Usuarios</span></a></li>
-        <li data-tooltip="Configuración"> <a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span class="menu-text">Configuración</span></a></li>
-      </ul>
-    </div>
-    <!-- #sidebar-wrapper -->
-    <!-- Contenido de la página -->
-    <div id="main-page-content">
-      <div class="container-fluid">
-        <img class="logotipo" src="./img/logo.png" alt="logofastwaysas" width="150" height="100" style="margin-top: 15px; margin-bottom: 15px;">
-        
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="panel panel-default">
-              <div class="panel-heading">Sistema de Inventario</div>
-              <div class="panel-body" id="feature-content">
-                <div class="col-md-3">
-                  <div class="panel panel-primary">
-                    <div class="panel-body text-center" onclick="location.href='./Tablas/ver_inventario.html'" data-tooltip="Ver Inventario">
-                      <span class="glyphicon glyphicon-check icon-big" aria-hidden="true"></span>
-                      <h3>Mi Inventario</h3>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="panel panel-primary">
-                    <div class="panel-body text-center" onclick="location.href='./formularios/Orden_salida.html'" data-tooltip="Crear Orden de Salida">
-                      <span class="glyphicon glyphicon-export icon-big" aria-hidden="true"></span>
-                      <h3>Crear Orden de Salida</h3>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="panel panel-primary">
-                    <div class="panel-body text-center" onclick="location.href='./'" data-tooltip="Ver Ocupación de la Bodega">
-                      <span class="glyphicon glyphicon-stats icon-big" aria-hidden="true"></span>
-                      <h3> Ocupación de Bodega</h3>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="panel panel-primary">
-                    <div class="panel-body text-center" onclick="location.href='./Tablas/Consultarfactura.php'" data-tooltip="Histórico de Movimientos">
-                      <span class="glyphicon glyphicon-book icon-big" aria-hidden="true"></span>
-                      <h3>Histórico de Movimientos</h3>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="panel panel-primary">
-                    <div class="panel-body text-center" onclick="location.href='./formularios/ingresar_inventario.php'" data-tooltip="Ingresar Productos al Inventario">
-                      <span class="glyphicon glyphicon-plus icon-big" aria-hidden="true"></span>
-                      <h3>Ingresar al Inventario</h3>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="panel panel-primary">
-                    <div class="panel-body text-center" onclick="location.href='./Tablas/tabla_productos.php'" data-tooltip="Agregar Producto">
-                      <span class="glyphicon glyphicon-plus icon-big" aria-hidden="true"></span>
-                      <h3>Ver y Agregar Producto</h3>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="panel panel-primary">
-                    <div class="panel-body text-center" onclick="location.href='./Tablas/editar_inventario.html'" data-tooltip="Editar Inventario">
-                      <span class="glyphicon glyphicon-book icon-big" aria-hidden="true"></span>
-                      <h3>Editar Inventario</h3>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="panel panel-primary">
-                    <div class="panel-body text-center" onclick="location.href='./formularios/crearcliente.html'" data-tooltip="Crear Usuario">
-                      <span class="glyphicon glyphicon-plus icon-big" aria-hidden="true"></span>
-                      <h3>Crear Cliente</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div style="clear:both"></div>
-      </div>
-    </div>
-  </div>
-  <!-- /#wrapper -->
-  <!-- Script para alternar el menú -->
-  <script src="./js/sidebar.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+
+<script>
+  
+   window.addEventListener("load", function() {
+    setTimeout(function() {
+        document.getElementById('btnIngresar').style.display = 'block'; // Cambia 'block' por 'inline-block' si es necesario
+    }, 2000); // 5000 milisegundos = 5 segundos
+});
+
+  window.addEventListener("load", windowLoadHandler, false);
+  var sphereRad = 280;
+  var radius_sp = 1;
+
+
+  function windowLoadHandler() {
+    canvasApp();
+  }
+
+  function canvasApp() {
+    var theCanvas = document.getElementById("canvasOne");
+    var context = theCanvas.getContext("2d");
+
+    var displayWidth;
+    var displayHeight;
+    var timer;
+    var wait;
+    var count;
+    var numToAddEachFrame;
+    var particleList;
+    var recycleBin;
+    var particleAlpha;
+    var r, g, b;
+    var fLen;
+    var m;
+    var projCenterX;
+    var projCenterY;
+    var zMax;
+    var turnAngle;
+    var turnSpeed;
+    var sphereCenterX, sphereCenterY, sphereCenterZ;
+    var particleRad;
+    var zeroAlphaDepth;
+    var randAccelX, randAccelY, randAccelZ;
+    var gravity;
+    var rgbString;
+    var p;
+    var outsideTest;
+    var nextParticle;
+    var sinAngle;
+    var cosAngle;
+    var rotX, rotZ;
+    var depthAlphaFactor;
+    var i;
+    var theta, phi;
+    var x0, y0, z0;
+
+    init();
+
+    function init() {
+      wait = 1;
+      count = wait - 1;
+      numToAddEachFrame = 8;
+
+      r = 255; // Orange color
+      g = 165;
+      b = 0;
+
+      rgbString = "rgba(" + r + "," + g + "," + b + ",";
+      particleAlpha = 1;
+
+      displayWidth = theCanvas.width;
+      displayHeight = theCanvas.height;
+
+      fLen = 320;
+
+      projCenterX = displayWidth / 2;
+      projCenterY = displayHeight / 2;
+
+      zMax = fLen - 2;
+
+      particleList = {};
+      recycleBin = {};
+
+      randAccelX = 0.1;
+      randAccelY = 0.1;
+      randAccelZ = 0.1;
+
+      gravity = -0;
+
+      particleRad = 2.5;
+
+      sphereCenterX = 0;
+      sphereCenterY = 0;
+      sphereCenterZ = -3 - sphereRad;
+
+      zeroAlphaDepth = -750;
+
+      turnSpeed = 2 * Math.PI / 1200;
+      turnAngle = 0;
+
+      timer = setInterval(onTimer, 10 / 24);
+    }
+
+    function onTimer() {
+      count++;
+      if (count >= wait) {
+        count = 0;
+        for (i = 0; i < numToAddEachFrame; i++) {
+          theta = Math.random() * 2 * Math.PI;
+          phi = Math.acos(Math.random() * 2 - 1);
+          x0 = sphereRad * Math.sin(phi) * Math.cos(theta);
+          y0 = sphereRad * Math.sin(phi) * Math.sin(theta);
+          z0 = sphereRad * Math.cos(phi);
+
+          var p = addParticle(x0, sphereCenterY + y0, sphereCenterZ + z0, 0.002 * x0, 0.002 * y0, 0.002 * z0);
+
+          p.attack = 50;
+          p.hold = 50;
+          p.decay = 100;
+          p.initValue = 0;
+          p.holdValue = particleAlpha;
+          p.lastValue = 0;
+
+          p.stuckTime = 90 + Math.random() * 20;
+
+          p.accelX = 0;
+          p.accelY = gravity;
+          p.accelZ = 0;
+        }
+      }
+
+      turnAngle = (turnAngle + turnSpeed) % (2 * Math.PI);
+      sinAngle = Math.sin(turnAngle);
+      cosAngle = Math.cos(turnAngle);
+
+      context.clearRect(0, 0, displayWidth, displayHeight); // Clear canvas
+
+      p = particleList.first;
+      while (p != null) {
+        nextParticle = p.next;
+
+        p.age++;
+
+        if (p.age > p.stuckTime) {
+          p.velX += p.accelX + randAccelX * (Math.random() * 2 - 1);
+          p.velY += p.accelY + randAccelY * (Math.random() * 2 - 1);
+          p.velZ += p.accelZ + randAccelZ * (Math.random() * 2 - 1);
+
+          p.x += p.velX;
+          p.y += p.velY;
+          p.z += p.velZ;
+        }
+
+        rotX = cosAngle * p.x + sinAngle * (p.z - sphereCenterZ);
+        rotZ = -sinAngle * p.x + cosAngle * (p.z - sphereCenterZ) + sphereCenterZ;
+        m = radius_sp * fLen / (fLen - rotZ);
+        p.projX = rotX * m + projCenterX;
+        p.projY = p.y * m + projCenterY;
+
+        if (p.age < p.attack + p.hold + p.decay) {
+          if (p.age < p.attack) {
+            p.alpha = (p.holdValue - p.initValue) / p.attack * p.age + p.initValue;
+          }
+          else if (p.age < p.attack + p.hold) {
+            p.alpha = p.holdValue;
+          }
+          else if (p.age < p.attack + p.hold + p.decay) {
+            p.alpha = (p.lastValue - p.holdValue) / p.decay * (p.age - p.attack - p.hold) + p.holdValue;
+          }
+        }
+        else {
+          p.dead = true;
+        }
+
+        if ((p.projX > displayWidth) || (p.projX < 0) || (p.projY < 0) || (p.projY > displayHeight) || (rotZ > zMax)) {
+          outsideTest = true;
+        }
+        else {
+          outsideTest = false;
+        }
+
+        if (outsideTest || p.dead) {
+          recycle(p);
+        }
+        else {
+          depthAlphaFactor = (1 - rotZ / zeroAlphaDepth);
+          depthAlphaFactor = (depthAlphaFactor > 1) ? 1 : ((depthAlphaFactor < 0) ? 0 : depthAlphaFactor);
+          context.fillStyle = rgbString + depthAlphaFactor * p.alpha + ")";
+
+          context.beginPath();
+          context.arc(p.projX, p.projY, m * particleRad, 0, 2 * Math.PI, false);
+          context.closePath();
+          context.fill();
+        }
+
+        p = nextParticle;
+      }
+    }
+
+    function addParticle(x0, y0, z0, vx0, vy0, vz0) {
+      var newParticle;
+      var color;
+
+      if (recycleBin.first != null) {
+        newParticle = recycleBin.first;
+        if (newParticle.next != null) {
+          recycleBin.first = newParticle.next;
+          newParticle.next.prev = null;
+        }
+        else {
+          recycleBin.first = null;
+        }
+      }
+      else {
+        newParticle = {};
+      }
+
+      if (particleList.first == null) {
+        particleList.first = newParticle;
+        newParticle.prev = null;
+        newParticle.next = null;
+      }
+      else {
+        newParticle.next = particleList.first;
+        particleList.first.prev = newParticle;
+        particleList.first = newParticle;
+        newParticle.prev = null;
+      }
+
+      newParticle.x = x0;
+      newParticle.y = y0;
+      newParticle.z = z0;
+      newParticle.velX = vx0;
+      newParticle.velY = vy0;
+      newParticle.velZ = vz0;
+      newParticle.age = 0;
+      newParticle.dead = false;
+      if (Math.random() < 0.5) {
+        newParticle.right = true;
+      }
+      else {
+        newParticle.right = false;
+      }
+      return newParticle;
+    }
+
+    function recycle(p) {
+      if (particleList.first == p) {
+        if (p.next != null) {
+          p.next.prev = null;
+          particleList.first = p.next;
+        }
+        else {
+          particleList.first = null;
+        }
+      }
+      else {
+        if (p.next == null) {
+          p.prev.next = null;
+        }
+        else {
+          p.prev.next = p.next;
+          p.next.prev = p.prev;
+        }
+      }
+      if (recycleBin.first == null) {
+        recycleBin.first = p;
+        p.prev = null;
+        p.next = null;
+      }
+      else {
+        p.next = recycleBin.first;
+        recycleBin.first.prev = p;
+        recycleBin.first = p;
+        p.prev = null;
+      }
+    }
+
+    $(function() {
+      $("#slider-range").slider({
+        range: false,
+        min: 20,
+        max: 500,
+        value: 280,
+        slide: function(event, ui) {
+          console.log(ui.value);
+          sphereRad = ui.value;
+        }
+      });
+    });
+
+    $(function() {
+      $("#slider-test").slider({
+        range: false,
+        min: 1.0,
+        max: 2.0,
+        value: 1,
+        step: 0.01,
+        slide: function(event, ui) {
+          radius_sp = ui.value;
+        }
+      });
+    });
+
+    // Agrega la animación al botón "Ingresar"
+    $("#btnIngresar").on("click", function(e) {
+      e.preventDefault();
+      $(this).addClass("animate__animated animate__bounceOutLeft");
+      setTimeout(function() {
+        window.location.href = "./Home/home.html"; // Cambia la URL a donde quieres redirigir
+      }, 500); // 1000 milisegundos = 1 segundo (tiempo de duración de la animación)
+    });
+  }
+  
+</script>
 </body>
-
 </html>
