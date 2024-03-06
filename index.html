@@ -88,6 +88,16 @@
   }
 
 @media (max-width: 600px) {
+
+  body {
+    background-image: url('./img/fondo\ 2.jpg');
+    color: #555555;
+    font-family: sans-serif;
+    margin: 0;
+    overflow: hidden;
+    transition: background-color 0.5s ease; /* Agrega una transición para cambiar el color de fondo */
+  }
+
   #image {
     max-width: 21%;
     top: 18%;
@@ -349,8 +359,7 @@
       sinAngle = Math.sin(turnAngle);
       cosAngle = Math.cos(turnAngle);
 
-      context.clearRect(0, 0, displayWidth, displayHeight); // Clear canvas
-
+      context.clearRect(0, 0, displayWidth, displayHeight); 
       p = particleList.first;
       while (p != null) {
         nextParticle = p.next;
