@@ -12,7 +12,7 @@
     // Crear el objeto Producto con el próximo ID y los demás datos del formulario
     $objProducto = new Producto($_POST["nombre"], 
                                  $_POST["referencia"], 
-                                 $_POST["marca"], 
+                                 $_POST["clienteFK "], 
                                  $_POST["tipo"], 
                                  $_POST["ancho"], 
                                  $_POST["alto"], 
@@ -26,7 +26,7 @@
     // Puedes imprimir o hacer lo que necesites con los datos del producto guardado
     echo $objProducto->getNombre();
     echo $objProducto->getReferencia();
-    echo $objProducto->getMarca();
+    echo $objProducto->getClienteFK ();
     echo $objProducto->getTipo();
     echo $objProducto->getAncho();
     echo $objProducto->getAlto();

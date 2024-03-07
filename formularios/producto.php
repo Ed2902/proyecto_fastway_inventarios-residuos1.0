@@ -55,8 +55,8 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label for="Marca" class="form-label">Marca</label>
-                                        <input type="text" class="form-control" id="Marca" name="marca" placeholder="Marca">
+                                        <label for="clienteFK" class="form-label">Cliente</label>
+                                        <input type="text" class="form-control" id="clienteFK" name="clienteFK" placeholder="Cliente">
                                     </div>
                                 </div>
                                 

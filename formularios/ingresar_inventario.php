@@ -32,26 +32,26 @@
                             
                                 <div class="col-md-6">
                                     <label for="nombre" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
+                                    <output type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
                                 </div>
                             </div>
                             
                             <div class="row mb-4">           
                                 <div class="col-md-6 mx-auto"> <!-- Utilizamos la clase 'mx-auto' para centrar el div -->
                                     <label for="Referencia" class="form-label">Referencia</label>
-                                    <input type="text" class="form-control" id="Referencia" name="referencia" placeholder="Referencia">
+                                    <output type="text" class="form-control" id="Referencia" name="referencia" placeholder="Referencia">
                                 </div>
                             </div>
                             
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <label for="Diseno" class="form-label">Diseño</label>
-                                    <input type="text" class="form-control" id="tipo" name="tipo" placeholder="Diseño">
+                                    <output type="text" class="form-control" id="tipo" name="tipo" placeholder="Diseño">
                                 </div>
                             
                                 <div class="col-md-6">
-                                    <label for="Marca" class="form-label">Marca</label>
-                                    <input type="text" class="form-control" id="Marca" name="marca" placeholder="Marca">
+                                    <label for="clienteFK" class="form-label">Cliente</label>
+                                    <output type="text" class="form-control" id="ClienteFK" name="clienteFK" placeholder="Cliente">
                                 </div>
                             </div>
 
@@ -90,7 +90,7 @@
                                         <th>Nombre</th>
                                         <th>Referencia</th>
                                         <th>Diseño</th>
-                                        <th>Marca</th>
+                                        <th>Cliente</th>
                                         <th>Quién da el ingreso</th>
                                         <th>FW</th>
                                         <th>Cantidades Agregadas</th>

@@ -6,17 +6,17 @@
         protected $id_producto;
         protected $nombre;
         protected $referencia;
-        protected $marca;
+        protected $clienteFK ;
         protected $tipo;
         protected $ancho;
         protected $alto;
         protected $profundo;
         protected $id_usuarioFK;
 
-        public function __construct($nombre, $referencia, $marca, $tipo, $ancho, $alto, $profundo, $id_usuarioFK, $id_producto = null) {
+        public function __construct($nombre, $referencia, $clienteFK , $tipo, $ancho, $alto, $profundo, $id_usuarioFK, $id_producto = null) {
             $this->nombre = $nombre;
             $this->referencia = $referencia;
-            $this->marca = $marca;
+            $this->clienteFK  = $clienteFK ;
             $this->tipo = $tipo;
             $this->ancho = $ancho;
             $this->alto = $alto;
@@ -51,12 +51,12 @@
             $this->referencia = $referencia;
         }
 
-        public function getMarca() {
-            return $this->marca;
+        public function getClienteFK () {
+            return $this->clienteFK;
         }
 
-        public function setMarca($marca) {
-            $this->marca = $marca;
+        public function setClienteFK ($clienteFK ) {
+            $this->clienteFK  = $clienteFK ;
         }
 
         public function getTipo() {
@@ -110,12 +110,12 @@
 
         public function guardar() {
             $conexion = new Conexion();
-            $consulta = $conexion->prepare("INSERT INTO producto (nombre, referencia, marca, tipo, ancho, alto, profundo, id_usuarioFK) VALUES(:nombre, :referencia, :marca, :tipo, :ancho, :alto, :profundo, :id_usuarioFK)");
+            $consulta = $conexion->prepare("INSERT INTO producto (nombre, referencia, clienteFK , tipo, ancho, alto, profundo, id_usuarioFK) VALUES(:nombre, :referencia, :clienteFK , :tipo, :ancho, :alto, :profundo, :id_usuarioFK)");
         
             try {
                 $consulta->bindParam(':nombre', $this->nombre);
                 $consulta->bindParam(':referencia', $this->referencia);
-                $consulta->bindParam(':marca', $this->marca);
+                $consulta->bindParam(':clienteFK ', $this->clienteFK );
                 $consulta->bindParam(':tipo', $this->tipo);
                 $consulta->bindParam(':ancho', $this->ancho);
                 $consulta->bindParam(':alto', $this->alto);
@@ -142,7 +142,7 @@
             $sql = "SELECT producto.id_producto, 
                            producto.nombre, 
                            producto.referencia, 
-                           producto.marca, 
+                           producto.clienteFK , 
                            producto.tipo, 
                            producto.ancho, 
                            producto.alto, 

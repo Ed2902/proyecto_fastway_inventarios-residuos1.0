@@ -47,7 +47,7 @@
                         <th>ID Producto</th>
                         <th>Nombre del Producto</th>
                         <th>Referencia</th>
-                        <th>Marca</th>
+                        <th>Cliente</th>
                         <th>Tipo</th>
                         <th>Ancho</th>
                         <th>Alto</th>
@@ -67,7 +67,7 @@
                             echo "<td>".$producto->id_producto."</td>";
                             echo "<td>".$producto->nombre."</td>";
                             echo "<td>".$producto->referencia."</td>";
-                            echo "<td>".$producto->marca."</td>";
+                            echo "<td>".$producto->clienteFK."</td>";
                             echo "<td>".$producto->tipo."</td>";
                             echo "<td>".$producto->ancho."</td>";
                             echo "<td>".$producto->alto."</td>";
