@@ -6,22 +6,25 @@
         protected $id_producto;
         protected $nombre;
         protected $referencia;
-        protected $clienteFK ;
+        protected $clienteFK;
         protected $tipo;
         protected $ancho;
         protected $alto;
         protected $profundo;
         protected $id_usuarioFK;
+        protected $fecha_producto;
 
-        public function __construct($nombre, $referencia, $clienteFK , $tipo, $ancho, $alto, $profundo, $id_usuarioFK, $id_producto = null) {
+        public function __construct($nombre, $referencia, $clienteFK, $tipo, $ancho, $alto, $profundo, $id_usuarioFK, $fecha_producto, $id_producto = null) {
+            
             $this->nombre = $nombre;
             $this->referencia = $referencia;
-            $this->clienteFK  = $clienteFK ;
+            $this->clienteFK = $clienteFK;
             $this->tipo = $tipo;
             $this->ancho = $ancho;
             $this->alto = $alto;
             $this->profundo = $profundo;
             $this->id_usuarioFK = $id_usuarioFK;
+            $this->fecha_producto = $fecha_producto;
             $this->id_producto = $id_producto; // Agregar esta línea para aceptar el ID como parámetro opcional
         }
         
@@ -51,12 +54,12 @@
             $this->referencia = $referencia;
         }
 
-        public function getClienteFK () {
+        public function getClienteFK() {
             return $this->clienteFK;
         }
 
-        public function setClienteFK ($clienteFK ) {
-            $this->clienteFK  = $clienteFK ;
+        public function setClienteFK($clienteFK) {
+            $this->clienteFK = $clienteFK;
         }
 
         public function getTipo() {
@@ -91,6 +94,14 @@
             $this->profundo = $profundo;
         }
 
+        public function getFechaProducto() {
+            return $this->fecha_producto;
+        }
+        
+        public function setFechaProducto($fecha_producto) {
+            $this->fecha_producto = $fecha_producto;
+        }
+
         public function getIdUsuarioFK() {
             return $this->id_usuarioFK;
         }
@@ -110,19 +121,24 @@
 
         public function guardar() {
             $conexion = new Conexion();
-            $consulta = $conexion->prepare("INSERT INTO producto (nombre, referencia, clienteFK , tipo, ancho, alto, profundo, id_usuarioFK) VALUES(:nombre, :referencia, :clienteFK , :tipo, :ancho, :alto, :profundo, :id_usuarioFK)");
-        
+            
             try {
+                $consulta = $conexion->prepare("INSERT INTO producto (nombre, referencia, clienteFK , tipo, ancho, alto, profundo, id_usuarioFK, fecha_producto) VALUES(:nombre, :referencia, :clienteFK , :tipo, :ancho, :alto, :profundo, :id_usuarioFK, :fecha_producto)");
+                
                 $consulta->bindParam(':nombre', $this->nombre);
                 $consulta->bindParam(':referencia', $this->referencia);
-                $consulta->bindParam(':clienteFK ', $this->clienteFK );
+                $consulta->bindParam(':clienteFK', $this->clienteFK);
                 $consulta->bindParam(':tipo', $this->tipo);
                 $consulta->bindParam(':ancho', $this->ancho);
                 $consulta->bindParam(':alto', $this->alto);
                 $consulta->bindParam(':profundo', $this->profundo);
                 $consulta->bindParam(':id_usuarioFK', $this->id_usuarioFK);
+                
+                $fecha_actual = date('Y-m-d H:i:s');
+                $consulta->bindParam(':fecha_producto', $fecha_actual);
+                
                 $consulta->execute();
-        
+                
                 // Obtener el ID del producto recién insertado
                 $this->id_producto = $conexion->lastInsertId();
                 
@@ -136,13 +152,14 @@
                 return false; // En caso de error, devuelve falso
             }
         }
+        
 
         public static function obtenerProductos() {
             $conexion = new Conexion();
             $sql = "SELECT producto.id_producto, 
                            producto.nombre, 
                            producto.referencia, 
-                           producto.clienteFK , 
+                           producto.clienteFK, 
                            producto.tipo, 
                            producto.ancho, 
                            producto.alto, 
@@ -178,5 +195,21 @@
                 return null;
             }
         }
+
+        public static function obtenerClientes() {
+            $conexion = new Conexion();
+            $sql = "SELECT id_cliente, nombre FROM cliente";
+            $consulta = $conexion->prepare($sql);
         
-}
+            try {
+                $consulta->execute();
+                $clientes = $consulta->fetchAll(PDO::FETCH_ASSOC);
+                return $clientes;
+            } catch (PDOException $e) {
+                echo "Error al obtener los clientes: " . $e->getMessage();
+                return null;
+            }
+        }
+    }
+        
+
