@@ -210,6 +210,30 @@
                 return null;
             }
         }
+
+        public static function obtenerNombreUsuarioPorId($idUsuario) {
+            $conexion = new Conexion();
+            $sql = "SELECT nombre FROM usuario WHERE id_usuario = :id";
+            $consulta = $conexion->prepare($sql);
+        
+            try {
+                $consulta->bindParam(':id', $idUsuario);
+                $consulta->execute();
+                $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+                return $resultado['nombre'];
+            } catch (PDOException $e) {
+                echo "Error al obtener el nombre del usuario: " . $e->getMessage();
+                return null;
+            }
+        }
+
+        
     }
+
+
+
+    
+
+
         
 

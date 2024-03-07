@@ -117,7 +117,7 @@
    
 
     <script>
-        document.getElementById('CodigoProducto').addEventListener('keypress', function(e) {
+            document.getElementById('CodigoProducto').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 var idProducto = document.getElementById('CodigoProducto').value;
                 fetch('../objetos_guardar/obtener_producto.php?id=' + idProducto)
@@ -127,6 +127,9 @@
                             document.getElementById('nombre').value = data.producto.nombre;
                             document.getElementById('Referencia').value = data.producto.referencia;
                             document.getElementById('tipo').value = data.producto.tipo;
+                            
+                            // Cambiar para mostrar el nombre del cliente en lugar del ID
+                            document.getElementById('ClienteFK').value = data.producto.nombreCliente;
                         } else {
                             alert('No se encontró el producto con el ID proporcionado.');
                         }
@@ -135,7 +138,7 @@
                         console.error('Error:', error);
                     });
             }
-        });
+            });
     </script>
 
 
