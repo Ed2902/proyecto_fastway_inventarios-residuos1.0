@@ -7,7 +7,7 @@ require_once("../clases/inventario.php");
 $inventarioData = json_decode(file_get_contents("php://input"), true);
 
 // Verificar si los datos son válidos
-if (!$inventarioData) {
+if (!$inventarioData || !is_array($inventarioData)) {
     echo json_encode(array("error" => "Los datos de inventario no son válidos."));
     exit; // Detener la ejecución del script
 }
@@ -16,7 +16,6 @@ if (!$inventarioData) {
 foreach ($inventarioData as $filaDatos) {
     // Crear un objeto Inventario con los datos de la fila
     $inventario = new Inventario(
-        $filaDatos['fechaingreso'],
         $filaDatos['cantidad'],
         $filaDatos['fw'],
         $filaDatos['id_productoFK'],

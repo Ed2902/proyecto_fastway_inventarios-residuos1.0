@@ -31,10 +31,10 @@ function agregarFilaTabla() {
     var cell6 = newRow.insertCell(5);
     var cell7 = newRow.insertCell(6);
     var cell8 = newRow.insertCell(7);
-    var cell9 = newRow.insertCell(8); // Nueva celda para acciones
+    var cell9 = newRow.insertCell(8); 
 
     cell1.innerHTML = codigoProducto;
-    cell2.innerHTML = nombre; // Nuevo campo agregado
+    cell2.innerHTML = nombre;
     cell3.innerHTML = referencia;
     cell4.innerHTML = tipo;
     cell5.innerHTML = clienteFK;
@@ -62,7 +62,7 @@ function agregarFilaTabla() {
     actionsDiv.appendChild(editButton);
     actionsDiv.appendChild(deleteButton);
 
-    cell9.appendChild(actionsDiv); // Agregar acciones a la nueva celda
+    cell9.appendChild(actionsDiv); 
 
     // Almacenar datos en el array
     var filaDatos = {
@@ -133,34 +133,68 @@ function hacerCamposNoModificablesExceptoAlgunos() {
     });
 }
 
+// Función para obtener los datos para enviar al servidor
+function obtenerDatosParaEnviar() {
+    var datosParaEnviar = [];
+
+    inventarioData.forEach(function(fila) {
+        var datosFila = {
+            id_productoFK: fila.CodigoProducto,
+            id_usuarioFK: fila.QuienDaIngreso,
+            cantidad: fila.CantidadesAgregar,
+            fw: fila.FW,
+            id_clienteFK: fila.ClienteFK
+        };
+        
+        datosParaEnviar.push(datosFila);
+    });
+
+    console.log('Datos para enviar:', datosParaEnviar);
+
+    return datosParaEnviar;
+}
+
 // Llamamos a la función después de cargar el DOM
 document.addEventListener('DOMContentLoaded', function() {
     hacerCamposNoModificablesExceptoAlgunos();
 });
 
-
 function enviarDatosAlServidor() {
-    // Realizar una solicitud POST a tu script PHP
-    fetch('../', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ inventarioData: inventarioData }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Respuesta del servidor:', data);
-        // Puedes realizar más acciones después de recibir la respuesta del servidor
-    })
-    .catch(error => {
-        console.error('Error al enviar datos al servidor:', error);
-        console.log ("arreglo", inventarioData );
-    });
-}
+    // Obtener los datos a enviar
+    var datosParaEnviar = obtenerDatosParaEnviar();
 
-// Agregar un event listener al botón "Enviar"
-document.getElementById("enviarButton").addEventListener("click", function () {
-    // Llamar a la función enviarDatosAlServidor al hacer clic en el botón
-    enviarDatosAlServidor();
-});
+    // Mostrar los datos que se van a enviar en la consola
+    console.log('Datos a enviar:', datosParaEnviar);
+
+    // Crear una solicitud AJAX
+    var xhr = new XMLHttpRequest();
+    var url = '../objetos_guardar/guardar_inventario.php';
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    // Convertir los datos a JSON
+    var datosJSON = JSON.stringify(datosParaEnviar);
+
+    // Configurar la función de devolución de llamada cuando la solicitud se complete
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            // La solicitud fue exitosa
+            console.log('Datos enviados correctamente al servidor.');
+            // Puedes agregar aquí más acciones si lo deseas, como mostrar un mensaje de éxito al usuario
+        } else {
+            // Hubo un error en la solicitud
+            console.error('Error al enviar datos al servidor. Código de estado:', xhr.status);
+            // Puedes agregar aquí más acciones si lo deseas, como mostrar un mensaje de error al usuario
+        }
+    };
+
+    // Configurar la función de devolución de llamada para errores de red
+    xhr.onerror = function () {
+        // Hubo un error de red
+        console.error('Error de red al enviar datos al servidor.');
+        // Puedes agregar aquí más acciones si lo deseas, como mostrar un mensaje de error al usuario
+    };
+
+    // Enviar la solicitud con los datos JSON
+    xhr.send(datosJSON);
+}
