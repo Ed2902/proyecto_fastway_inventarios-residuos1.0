@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "fastwayclientes";
+$dbname = "inventariofast";
 
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -23,7 +23,7 @@ $direccion = $_POST['direccion'];
 $fecha_registro = $_POST['fecha'];
 
 // Crear una carpeta para el cliente
-$targetDirectory = "./guardar/";
+$targetDirectory = "./guardar";
 $clientFolder = $targetDirectory . $nombre . "/";
 if (!file_exists($clientFolder)) {
     mkdir($clientFolder, 0777, true); // Se crea la carpeta si no existe

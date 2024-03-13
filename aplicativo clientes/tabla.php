@@ -59,7 +59,7 @@
                     $servername = "localhost";
                     $username = "root";
                     $password = "";
-                    $dbname = "fastwayclientes";
+                    $dbname = "inventariofast";
 
                     // Crear conexión
                     $conn = new mysqli($servername, $username, $password, $dbname);
