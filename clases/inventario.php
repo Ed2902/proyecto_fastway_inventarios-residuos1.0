@@ -93,5 +93,45 @@ class Inventario {
             return false; // En caso de error, devuelve falso
         }
     }
+
+    public function mostrarEnTabla() {
+        $conexion = new Conexion();
+        $consulta = $conexion->query("SELECT * FROM inventario");
+    
+        if ($consulta->rowCount() > 0) {
+            echo "<tbody>";
+    
+            while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                echo "<tr>";
+                echo "<td>".$fila['id_inventario']."</td>";
+                echo "<td>".$fila['fechaingreso']."</td>";
+                echo "<td>".$fila['cantidad']."</td>";
+                echo "<td>".$fila['fw']."</td>";
+    
+                // Obtener el nombre del producto
+                $consultaProducto = $conexion->prepare("SELECT nombre FROM producto WHERE id_producto = :id_producto");
+                $consultaProducto->bindParam(':id_producto', $fila['id_productoFK']);
+                $consultaProducto->execute();
+                $producto = $consultaProducto->fetch(PDO::FETCH_ASSOC);
+                echo "<td>".$producto['nombre']."</td>";
+    
+                // Obtener el nombre del usuario
+                $consultaUsuario = $conexion->prepare("SELECT nombre FROM usuario WHERE id_usuario = :id_usuario");
+                $consultaUsuario->bindParam(':id_usuario', $fila['id_usuarioFK']);
+                $consultaUsuario->execute();
+                $usuario = $consultaUsuario->fetch(PDO::FETCH_ASSOC);
+                echo "<td>".$usuario['nombre']."</td>";
+    
+                echo "<td>".$fila['id_clienteFK']."</td>";
+                echo "</tr>";
+            }
+    
+            echo "</tbody>";
+        } else {
+            echo "<tr><td colspan='7'>No se encontraron datos de inventario.</td></tr>";
+        }
+    
+        $conexion = null;
+    }
     
 }

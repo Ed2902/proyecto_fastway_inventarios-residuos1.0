@@ -143,7 +143,7 @@
         if (confirm('¿Estás seguro de enviar los datos?')) {
             enviarDatosAlServidor();
             
-            window.location.href = '../Home/home.html';
+            window.location.href = '../Tablas/Tabla_inventariogeneral.php';
         }
     }
     </script>
