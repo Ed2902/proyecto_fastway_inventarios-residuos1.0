@@ -12,15 +12,26 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <!-- Estilos adicionales -->
     <style>
-        body {
+         body {
             padding-top: 20px; /* Ajuste para el menú fijo */
         }
         
         .table-responsive {
             overflow-x: auto;
         }
+        
         table#tablaClientes {
             width: 100% !important; /* Asegura que la tabla ocupe todo el ancho disponible */
+        }
+        
+        #tablaClientes th,
+        #tablaClientes td {
+            text-align: center; /* Centrar el texto en todas las celdas */
+        }
+        
+        #tablaClientes th:first-child,
+        #tablaClientes td:first-child {
+            font-weight: bold; /* Hace que el texto en la primera columna (ID Inventario) sea negrita */
         }
     </style>
 </head>
