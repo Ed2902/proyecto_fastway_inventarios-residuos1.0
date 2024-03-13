@@ -109,11 +109,13 @@ class Inventario {
                 echo "<td>".$fila['fw']."</td>";
     
                 // Obtener el nombre del producto
-                $consultaProducto = $conexion->prepare("SELECT nombre FROM producto WHERE id_producto = :id_producto");
+                $consultaProducto = $conexion->prepare("SELECT nombre, referencia, tipo FROM producto WHERE id_producto = :id_producto");
                 $consultaProducto->bindParam(':id_producto', $fila['id_productoFK']);
                 $consultaProducto->execute();
                 $producto = $consultaProducto->fetch(PDO::FETCH_ASSOC);
                 echo "<td>".$producto['nombre']."</td>";
+                echo "<td>".$producto['referencia']."</td>";
+                echo "<td>".$producto['tipo']."</td>";
     
                 // Obtener el nombre del usuario
                 $consultaUsuario = $conexion->prepare("SELECT nombre FROM usuario WHERE id_usuario = :id_usuario");
@@ -128,10 +130,34 @@ class Inventario {
     
             echo "</tbody>";
         } else {
-            echo "<tr><td colspan='7'>No se encontraron datos de inventario.</td></tr>";
+            echo "<tr><td colspan='9'>No se encontraron datos de inventario.</td></tr>";
         }
     
         $conexion = null;
     }
+
+    public function mostrarConsolidadoProductos() {
+        $conexion = new Conexion();
+        $consulta = $conexion->query("SELECT p.id_producto, p.nombre AS nombre_producto, p.referencia, p.tipo, i.id_clienteFK, SUM(i.cantidad) AS total_cantidad FROM inventario i INNER JOIN producto p ON i.id_productoFK = p.id_producto GROUP BY i.id_productoFK, i.id_clienteFK");
+        
+        if ($consulta->rowCount() > 0) {
+            while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                echo "<tr>";
+                echo "<td>".$fila['id_producto']."</td>";
+                echo "<td>".$fila['nombre_producto']."</td>";
+                echo "<td>".$fila['referencia']."</td>";
+                echo "<td>".$fila['tipo']."</td>";
+                echo "<td>".$fila['id_clienteFK']."</td>";
+                echo "<td>".$fila['total_cantidad']."</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='6'>No se encontraron datos de inventario.</td></tr>";
+        }
+        
+        $conexion = null;
+    }
+    
+    
     
 }

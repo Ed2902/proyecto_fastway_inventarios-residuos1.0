@@ -55,7 +55,7 @@
                 <i class="fas fa-home" style="font-size: 20px; color:#fe5000;"></i>
             </button>
         </a>
-        <h1 class="mt-5 mb-3">Ingresos a inventario general Fast Way</h1>
+        <h1 class="mt-5 mb-3">Mi inventario General</h1>
         <!-- Campo de búsqueda por fecha -->
         <div class="form-group row justify-content-end">
             <label for="filtroFecha" class="col-md-2 col-form-label text-right">Buscar por Fecha:</label>
@@ -73,18 +73,15 @@
             <table id="tablaInventario" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>ID Inventario</th>
-                        <th>Fecha de Ingreso</th>
-                        <th>Cantidad</th>
-                        <th>FW</th>
-                        <th>Producto</th>
+                        <th>ID Producto</th>
+                        <th>Nombre Producto</th>
                         <th>Referencia</th>
                         <th>Tipo</th>
-                        <th>Usuario</th>
-                        <th>Cliente</th>
+                        <th>ID Cliente</th>
+                        <th>Cantidad</th>
                     </tr>
                 </thead>
-                <?php $inventario->mostrarEnTabla(); ?>
+                <?php $inventario->mostrarConsolidadoProductos(); ?>
             </table>
         </div>
         <!-- Botón de Agregar -->
