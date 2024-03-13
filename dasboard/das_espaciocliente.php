@@ -4,12 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard de Espacio Ocupado por Cliente</title>
+    <!-- Importa la fuente HemiHeadRg-BoldItalic desde Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=HemiHeadRg:wght@700&family=HemiHeadRg&display=swap">
     <!-- Incluye las librerías de Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* Estilos opcionales para el contenedor del gráfico */
+        body {
+            font-family: 'HemiHeadRg-BoldItalic', sans-serif;
+        }
+        h1, h2 {
+            text-align: center;
+        }
         #chart-container {
-            width: 800px;
+            width: 100%;
+            max-width: 800px; /* Ancho máximo del contenedor */
             margin: 20px auto;
         }
         #espacio-libre {
@@ -23,11 +32,11 @@
         #espacio-libre-barra {
             background-color: #59A1F7;
             height: 100%;
-            width: <?php echo round(($espacio_libre / 1000) * 100, 2); ?>%; /* Redondea a 2 decimales */
+            width: 0%; /* Comienza con 0% de ancho */
             position: absolute;
             top: 0;
             left: 0;
-            transition: width 0.5s;
+            animation: loading 2s linear 1; /* Animación de 2 segundos que se ejecuta una vez */
         }
         #espacio-libre-numero {
             position: absolute;
@@ -37,8 +46,23 @@
             color: black;
         }
         .espacio-libre-contenedor {
+            width: 100%;
             max-width: 60%; /* Cambia el ancho máximo aquí */
             margin: 0 auto; /* Centra horizontalmente */
+        }
+        /* Media queries para dispositivos móviles */
+        @media screen and (max-width: 768px) {
+            #chart-container {
+                max-width: 90%; /* Ancho máximo del contenedor para dispositivos móviles */
+            }
+            .espacio-libre-contenedor {
+                max-width: 90%; /* Ancho máximo del contenedor para dispositivos móviles */
+            }
+        }
+        /* Estilos para la animación de carga */
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
         }
     </style>
 </head>
@@ -51,7 +75,7 @@
     <div class="espacio-libre-contenedor">
         <div id="espacio-libre">
             <div id="espacio-libre-barra"></div>
-            <div id="espacio-libre-numero"><?php echo round($espacio_libre, 2); ?> m³ libres</div> <!-- Redondea a 2 decimales -->
+            <div id="espacio-libre-numero"><?php echo round($espacio_libre, 2); ?> m³ libres</div>
         </div>
     </div>
 
@@ -100,7 +124,7 @@
             data: {
                 labels: etiquetas,
                 datasets: [{
-                    label: 'Espacio Ocupado por Cliente (metros cúbicos)',
+                    label: 'Ocupado',
                     data: datos,
                     backgroundColor: coloresBarras, // Colores aleatorios para las barras
                     borderColor: coloresBarras, // Borde de las barras
@@ -127,11 +151,11 @@
         }
 
         // Simulación de actualización del espacio libre (puedes reemplazar esto con tu lógica real)
-        setInterval(function() {
+        setTimeout(function() {
             // Aquí deberías obtener el espacio libre actualizado desde tu backend
             var espacioLibre = <?php echo $espacio_libre; ?>;
             actualizarEspacioLibre(espacioLibre);
-        }, 500); // Actualiza cada medio segundo
+        }, 2000); // Simula una carga de 2 segundos
     </script>
 </body>
 </html>
