@@ -152,20 +152,38 @@
 }
 
 @media (min-width: 900px) and (max-width: 1000px) {
-  canvas {
-    margin-top: 15%;
-    max-width: 800px;
+  body {
+    background-image: url('./img/Fondofastway2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #555555;
+    font-family: sans-serif;
+    margin: 0;
+    overflow: hidden;
+    transition: background-color 0.5s ease; /* Agrega una transición para cambiar el color de fondo */
   }
 
   #image {
-    max-width: 18%;
-    top: 20%;
+    max-width: 30%;
+    top: 25%;
   }
 
   .slider {
-    width: 500px;
+    width: 70%;
+    max-width: 800px;
+    margin: 0 auto;
   }
-  
+
+  canvas {
+    margin-top: 5%;
+    max-height: 80%;
+  }
+  #btnIngresar {
+    width: 14%;
+    margin-left: 35%;
+    margin-bottom:15% ;
+    text-align: center;
+    }
   
 }
 
