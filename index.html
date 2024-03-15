@@ -56,7 +56,7 @@
     margin: 0 auto;
     background-color: rgba(0, 0, 0, 0);
     width: 80%; /* Ajustado para ocupar el 80% del ancho del contenedor */
-    max-width: 1000px;
+    max-width: 900px;
     height: auto;
   }
   
@@ -65,13 +65,13 @@
     margin: 0 auto;
     background-color: rgba(0, 0, 0, 0);
     width: 100%;
-    max-width: 1000px; /* Ajuste máximo para dispositivos grandes */
+    max-width: 900px; /* Ajuste máximo para dispositivos grandes */
     height: auto;
   }
 
   #image {
     position: fixed;
-    top: 40%;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
     max-width: 16%; /* La imagen se ajustará al ancho del viewport */
@@ -141,45 +141,24 @@
 
   canvas {
     margin-top: 5%;
-    max-height: 80%;
-  }
-}
-
-@media (min-width: 900px) and (max-width: 1000px) {
-  body {
-    background-image: url('./img/Fondofastway2.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    color: #555555;
-    font-family: sans-serif;
-    margin: 0;
-    overflow: hidden;
-    transition: background-color 0.5s ease; /* Agrega una transición para cambiar el color de fondo */
+    max-height: 60%;
   }
 
-  #image {
-    max-width: 30%;
-    top: 25%;
+  .boton-contenedor{
+    position: relative;
+    margin-bottom: auto;
   }
 
-  .slider {
-    width: 70%;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  canvas {
-    margin-top: 5%;
-    max-height: 80%;
-  }
   #btnIngresar {
-    width: 14%;
-    margin-left:35%;
-    margin-bottom:15%;
+    display: none; /* Esto oculta el botón */
+    width: 8%;
+    margin-left: 45%;
     text-align: center;
-    }
-  
+  }
+
 }
+
+
 
 /* Estilos y efectos del botón */
 .bubbly-button {
