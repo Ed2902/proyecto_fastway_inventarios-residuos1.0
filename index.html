@@ -7,7 +7,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 <style>
 
- 
+ body {
+    background-image: url('./img/Fondofastway.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #555555;
+    font-family: sans-serif;
+    margin: 0;
+    overflow: hidden;
+    transition: background-color 0.5s ease; /* Agrega una transición para cambiar el color de fondo */
+  }
 
   .white-background {
     background-color: white; /* Establece un color de fondo blanco */
@@ -16,12 +25,7 @@
     text-align: left; /* Alinea el contenido del contenedor a la izquierda */
   }
 
-  @media (max-width: 600px) {
-    .boton-contenedor {
-      text-align: center; /* Centra el botón en pantallas pequeñas si es necesario */
-    }
-  
-  }
+ 
  
 
   #btnIngresar {
@@ -33,10 +37,6 @@
 
   body {
     background-image:url('./img/Fondofastway.jpg');
-    background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-
     color:#555555;
     font-family: sans-serif;
     margin: 0;
@@ -84,21 +84,21 @@
     height: auto; /* El alto se ajustará automáticamente */
   }
 
-@media (max-width: 600px) {
+  @media (min-width: 200px) and (max-width: 800px){
 
   body {
-    background-image: url('./img/Fondofastway.jpg');
+    background-image: url('./img/Fondofastway2.jpg');
+    background-position-y:top;
+    margin-bottom:100%;
+    background-repeat: no-repeat;
+    background-size: cover;
     
-    color: #555555;
-    font-family: sans-serif;
-    margin: 0;
-    overflow: hidden;
-    transition: background-color 0.5s ease; /* Agrega una transición para cambiar el color de fondo */
   }
 
   #image {
-    max-width: 21%;
+    max-width: 50%;
     top: 18%;
+    margin-top: 40%;
   }
 
   .slider {
@@ -108,12 +108,13 @@
   }
 
   canvas {
-    margin-top: 10%;
+    
+    margin-top: 50%;
     max-height: 90%;
   }
 
   #btnIngresar {
-    display: none; /* Esto oculta el botón */
+    display: none;
     width: 14%;
     margin-left: 35%;
     text-align: center;
@@ -121,6 +122,18 @@
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
+
+  body {
+    background-image: url('./img/Fondofastway2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #555555;
+    font-family: sans-serif;
+    margin: 0;
+    overflow: hidden;
+    transition: background-color 0.5s ease; /* Agrega una transición para cambiar el color de fondo */
+  }
+
   #image {
     max-width: 30%;
     top: 25%;
@@ -152,6 +165,7 @@
   .slider {
     width: 500px;
   }
+  
   
 }
 
@@ -198,15 +212,6 @@
   animation-name: bottomBubbles;
 }
 
-
-
-@keyframes topBubbles {
-  /* Tu animación aquí */
-}
-
-@keyframes bottomBubbles {
-  /* Tu animación aquí */
-}
 </style>
 </head>
 <body>
@@ -231,8 +236,19 @@
     }, 2000); // 5000 milisegundos = 5 segundos
 });
 
+var screenWidth = window.innerWidth;
+    var giro; // Declaración de la variable 'giro'
+    
+    if (screenWidth < 900) {
+        giro = 550;
+    } else {
+        giro = 280;
+    }
+
   window.addEventListener("load", windowLoadHandler, false);
-  var sphereRad = 280;
+
+
+  var sphereRad = giro;
   var radius_sp = 1;
 
 
