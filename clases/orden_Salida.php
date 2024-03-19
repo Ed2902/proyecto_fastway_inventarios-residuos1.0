@@ -90,11 +90,14 @@ class Orden_salida {
 
     public function guardar() {
         $conexion = new Conexion();
-        $consulta = $conexion->prepare("INSERT INTO ordensalida (fechaingreso, cantidades, id_productoFK) VALUES (NOW(), :cantidades, :id_productoFK)");
+        $consulta = $conexion->prepare("INSERT INTO ordensalida (cantidades, fechaorden, id_usuarioFK, id_productoFK, id_clienteFK, fw) VALUES (:cantidades, NOW(), :id_usuarioFK, :id_productoFK, :id_clienteFK, :fw)");
         
         try {
             $consulta->bindParam(':cantidades', $this->cantidades);
+            $consulta->bindParam(':id_usuarioFK', $this->id_usuarioFK);
             $consulta->bindParam(':id_productoFK', $this->id_productoFK);
+            $consulta->bindParam(':id_clienteFK', $this->id_clienteFK);
+            $consulta->bindParam(':fw', $this->fw);
     
             $consulta->execute();
         

@@ -2,7 +2,17 @@
 
 require_once("../clases/orden_Salida.php");
 
-$ordenData = json_decode(file_get_contents("php://input"), true);
+// Obtener el cuerpo de la solicitud
+$requestBody = file_get_contents("php://input");
+
+// Decodificar el JSON y manejar errores
+$ordenData = json_decode($requestBody, true);
+
+if ($ordenData === null && json_last_error() !== JSON_ERROR_NONE) {
+    // Error en la decodificación del JSON
+    echo json_encode(array("error" => "Error al decodificar el JSON: " . json_last_error_msg()));
+    exit;
+}
 
 // Verificar si los datos son válidos
 if (!$ordenData || !is_array($ordenData)) {
@@ -10,15 +20,16 @@ if (!$ordenData || !is_array($ordenData)) {
     exit; // Detener la ejecución del script
 }
 
+// Procesar los datos recibidos
 foreach ($ordenData as $filaDatos) {
     // Crear una instancia de Orden_salida con los datos recibidos
     $orden = new Orden_salida(
         $filaDatos['cantidades'],
-        $filaDatos['fechaorden'],
-        $filaDatos['id_usuarioFK'],
-        $filaDatos['id_productoFK'],
-        $filaDatos['id_clienteFK'],
-        $filaDatos['fw']
+        $filaDatos['fechaorden'], // Fecha de la orden
+        $filaDatos['id_usuarioFK'], // ID del usuario
+        $filaDatos['id_productoFK'], // ID del producto
+        $filaDatos['id_clienteFK'], // ID del cliente
+        $filaDatos['fw'] // fw
     );
 
     // Intentar guardar la orden en la base de datos

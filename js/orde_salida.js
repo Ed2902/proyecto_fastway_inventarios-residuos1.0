@@ -123,7 +123,10 @@ function obtenerDatosParaEnviar() {
     ordenData.forEach(function(fila) {
         var datosFila = {
             cantidades: fila.CantidadesAgregar,
-            id_productoFK: fila.CodigoProducto
+            id_productoFK: fila.CodigoProducto,
+            id_usuarioFK: 1, // Establecer el ID del usuario como 1
+            id_clienteFK: 1, // Establecer el ID del cliente como 1
+            fw: 0 // Establecer el valor de fw como 0
         };
         
         datosParaEnviar.push(datosFila);

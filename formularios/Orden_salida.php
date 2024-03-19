@@ -27,7 +27,7 @@
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <label for="CodigoProducto" class="form-label">Código Producto</label>
-                                    <input type="text" class="form-control" id="CodigoProducto" name="id_productoFK" placeholder="Código Producto">
+                                    <input type="number" class="form-control" id="CodigoProducto" name="id_productoFK" placeholder="Código Producto">
                                 </div>
 
                                 <div class="col-md-6">
