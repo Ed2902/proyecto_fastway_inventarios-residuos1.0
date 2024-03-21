@@ -63,11 +63,7 @@
                             </div>
 
                             <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <label for="FW" class="form-label">FW</label>
-                                    <input type="text" class="form-control" id="FW" name="fw" placeholder="FW">
-                                </div>
-
+                                
                                 <div class="col-md-6">
                                     <label for="CantidadesAgregar" class="form-label">Cantidades a Agregar</label>
                                     <input type="number" class="form-control" id="CantidadesAgregar" name="cantidad" placeholder="Cantidades a Agregar">
@@ -92,7 +88,6 @@
                                         <th>Diseño</th>
                                         <th>Cliente</th>
                                         <th>Quién da el ingreso</th>
-                                        <th>FW</th>
                                         <th>Cantidades Agregadas</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -143,7 +138,7 @@
         if (confirm('¿Estás seguro de enviar los datos?')) {
             enviarDatosAlServidor();
             
-            window.location.href = '../Tablas/Tabla_inventariogeneral.php';
+             window.location.href = '../Tablas/Tabla_inventariogeneral.php'; 
         }
     }
     </script>

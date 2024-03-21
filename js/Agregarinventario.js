@@ -1,16 +1,14 @@
 var inventarioData = [];  // Array para almacenar los datos del inventario
-
 function agregarFilaTabla() {
     var codigoProducto = document.getElementById("CodigoProducto").value;
-    var nombre = document.getElementById("nombre").value; // Nuevo campo agregado
+    var nombre = document.getElementById("nombre").value;
     var referencia = document.getElementById("Referencia").value;
     var tipo = document.getElementById("tipo").value;
     var clienteFK = document.getElementById("ClienteFK").value;
     var quienDaIngreso = document.getElementById("QuienDaIngreso").value;
-    var Fw = document.getElementById("FW").value;
     var cantidadesAgregar = document.getElementById("CantidadesAgregar").value;
 
-    if (!quienDaIngreso || !Fw || !cantidadesAgregar) {
+    if (!quienDaIngreso || !cantidadesAgregar) {
         alert("Todos los campos son obligatorios. Por favor, complete todos los campos.");
         return;
     }
@@ -30,8 +28,6 @@ function agregarFilaTabla() {
     var cell5 = newRow.insertCell(4);
     var cell6 = newRow.insertCell(5);
     var cell7 = newRow.insertCell(6);
-    var cell8 = newRow.insertCell(7);
-    var cell9 = newRow.insertCell(8); 
 
     cell1.innerHTML = codigoProducto;
     cell2.innerHTML = nombre;
@@ -39,8 +35,7 @@ function agregarFilaTabla() {
     cell4.innerHTML = tipo;
     cell5.innerHTML = clienteFK;
     cell6.innerHTML = quienDaIngreso;
-    cell7.innerHTML = Fw;
-    cell8.innerHTML = cantidadesAgregar;
+    cell7.innerHTML = cantidadesAgregar;
 
     // Crear botones de acciones
     var actionsDiv = document.createElement("div");
@@ -62,17 +57,16 @@ function agregarFilaTabla() {
     actionsDiv.appendChild(editButton);
     actionsDiv.appendChild(deleteButton);
 
-    cell9.appendChild(actionsDiv); 
+    cell7.appendChild(actionsDiv);
 
     // Almacenar datos en el array
     var filaDatos = {
         CodigoProducto: codigoProducto,
-        Nombre: nombre, // Nuevo campo agregado
+        Nombre: nombre,
         Referencia: referencia,
-        Tipo: tipo,  
+        Tipo: tipo,
         ClienteFK: clienteFK,
         QuienDaIngreso: quienDaIngreso,
-        FW: Fw,
         CantidadesAgregar: cantidadesAgregar
     };
 
@@ -95,8 +89,7 @@ function editarFila(button) {
     document.getElementById("tipo").value = row.cells[3].innerHTML;
     document.getElementById("ClienteFK").value = row.cells[4].innerHTML;
     document.getElementById("QuienDaIngreso").value = row.cells[5].innerHTML;
-    document.getElementById("FW").value = row.cells[6].innerHTML;
-    document.getElementById("CantidadesAgregar").value = row.cells[7].innerHTML;
+    document.getElementById("CantidadesAgregar").value = row.cells[6].innerHTML;
 
     // Eliminar la fila al editar
     row.parentNode.removeChild(row);
@@ -114,7 +107,6 @@ function limpiarFormulario() {
     document.getElementById("tipo").value = "";
     document.getElementById("ClienteFK").value = "";
     document.getElementById("QuienDaIngreso").value = "";
-    document.getElementById("FW").value = "";
     document.getElementById("CantidadesAgregar").value = "";
 }
 
@@ -126,7 +118,7 @@ function hacerCamposNoModificablesExceptoAlgunos() {
     // Iteramos sobre cada campo de entrada
     camposEntrada.forEach(function(campo) {
         // Verificamos si el campo no es alguno de los campos que queremos excluir
-        if (campo.id !== 'CodigoProducto' && campo.id !== 'QuienDaIngreso' && campo.id !== 'FW' && campo.id !== 'CantidadesAgregar') {
+        if (campo.id !== 'CodigoProducto' && campo.id !== 'QuienDaIngreso' && campo.id !== 'CantidadesAgregar') {
             // Hacemos que el campo sea no modificable
             campo.setAttribute('readonly', 'true');
         }
@@ -142,7 +134,6 @@ function obtenerDatosParaEnviar() {
             id_productoFK: fila.CodigoProducto,
             id_usuarioFK: fila.QuienDaIngreso,
             cantidad: fila.CantidadesAgregar,
-            fw: fila.FW,
             id_clienteFK: fila.ClienteFK
         };
         

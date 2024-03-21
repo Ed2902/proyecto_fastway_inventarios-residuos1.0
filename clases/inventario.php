@@ -6,21 +6,16 @@ class Inventario {
     protected $id_inventario;
     protected $fechaingreso;
     protected $cantidad;
-    protected $fw;
-    protected $id_productoFK ;
-    protected $id_usuarioFK ;
+    protected $id_productoFK;
+    protected $id_usuarioFK;
     protected $id_clienteFK;
-    
+    protected $id_ingresoFK;
 
-    public function __construct($cantidad, $fw, $id_productoFK, $id_usuarioFK, $id_clienteFK, $id_inventario = null) {
+    public function __construct($cantidad, $id_productoFK, $id_inventario = null) {
         $this->cantidad = $cantidad;
-        $this->fw = $fw;
         $this->id_productoFK = $id_productoFK;
-        $this->id_usuarioFK = $id_usuarioFK;
-        $this->id_clienteFK = $id_clienteFK;
         $this->id_inventario = $id_inventario;
     }
-
 
     public function getIdInventario() {
         return $this->id_inventario;
@@ -36,14 +31,6 @@ class Inventario {
 
     public function setCantidad($cantidad) {
         $this->cantidad = $cantidad;
-    }
-
-    public function getFw() {
-        return $this->fw;
-    }
-
-    public function setFw($fw) {
-        $this->fw = $fw;
     }
 
     public function getIdProductoFK() {
@@ -70,24 +57,46 @@ class Inventario {
         $this->id_clienteFK = $id_clienteFK;
     }
 
-    public function guardar() {
+    public function getIdIngresoFK() {
+        return $this->id_ingresoFK;
+    }
+
+    public function setIdIngresoFK($id_ingresoFK) {
+        $this->id_ingresoFK = $id_ingresoFK;
+    }
+    public function guardar($id_usuarioFK, $id_clienteFK, $id_ingresoFK) {
         $conexion = new Conexion();
-        $consulta = $conexion->prepare("INSERT INTO inventario (fechaingreso, cantidad, fw, id_productoFK, id_usuarioFK, id_clienteFK) VALUES (NOW(), :cantidad, :fw, :id_productoFK, :id_usuarioFK, :id_clienteFK)");
+        $consulta = $conexion->prepare("INSERT INTO inventario (cantidad, id_productoFK, id_ingresoFK) VALUES (:cantidad, :id_productoFK, :id_ingresoFK)");
     
         try {
             $consulta->bindParam(':cantidad', $this->cantidad);
-            $consulta->bindParam(':fw', $this->fw);
             $consulta->bindParam(':id_productoFK', $this->id_productoFK);
-            $consulta->bindParam(':id_usuarioFK', $this->id_usuarioFK);
-            $consulta->bindParam(':id_clienteFK', $this->id_clienteFK);
+            $consulta->bindParam(':id_ingresoFK', $id_ingresoFK); // Asignar el id_ingresoFK proporcionado
             $consulta->execute();
     
             // Obtener el ID del inventario recién insertado
             $this->id_inventario = $conexion->lastInsertId();
     
-            // Devolver el ID del inventario
-            return $this->id_inventario;
+            // No necesitamos guardar en la tabla ingresos aquí
     
+            return true;
+        } catch (PDOException $e) {
+            echo "Hay un error: " . $e->getMessage();
+            return false; // En caso de error, devuelve falso
+        }
+    }
+
+    public static function guardarIngreso($id_usuarioFK, $id_clienteFK, $id_inventarioFK) {
+        $conexion = new Conexion();
+        $consultaIngreso = $conexion->prepare("INSERT INTO ingresos (id_inventarioFK, fecha, id_usuarioFK, id_clienteFK) VALUES (:id_inventarioFK, NOW(), :id_usuarioFK, :id_clienteFK)");
+
+        try {
+            $consultaIngreso->bindParam(':id_inventarioFK', $id_inventarioFK);
+            $consultaIngreso->bindParam(':id_usuarioFK', $id_usuarioFK);
+            $consultaIngreso->bindParam(':id_clienteFK', $id_clienteFK);
+            $consultaIngreso->execute();
+
+            return true;
         } catch (PDOException $e) {
             echo "Hay un error: " . $e->getMessage();
             return false; // En caso de error, devuelve falso
