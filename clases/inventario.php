@@ -103,7 +103,7 @@ class Inventario {
     
             while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 echo "<tr>";
-                echo "<td>".$fila['id_inventario']."</td>";
+                echo "<td>E".$fila['id_inventario']."</td>";
                 echo "<td>".$fila['fechaingreso']."</td>";
                 echo "<td>".$fila['cantidad']."</td>";
                 echo "<td>".$fila['fw']."</td>";
