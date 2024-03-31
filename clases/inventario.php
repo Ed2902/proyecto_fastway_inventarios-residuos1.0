@@ -10,11 +10,13 @@ class Inventario {
     protected $id_usuarioFK;
     protected $id_clienteFK;
     protected $id_ingresoFK;
+    private $conexion;
 
     public function __construct($cantidad, $id_productoFK, $id_inventario = null) {
         $this->cantidad = $cantidad;
         $this->id_productoFK = $id_productoFK;
         $this->id_inventario = $id_inventario;
+        
     }
 
     public function getIdInventario() {
@@ -105,46 +107,36 @@ class Inventario {
 
     public function mostrarEnTabla() {
         $conexion = new Conexion();
-        $consulta = $conexion->query("SELECT * FROM inventario");
+        // Ajuste en la consulta para no seleccionar id_inventario y ordenar adecuadamente los campos
+        $consulta = $conexion->query("SELECT ing.fecha as fechaingreso, inv.cantidad, ing.id_ingreso as fw, pro.nombre, pro.referencia, pro.tipo, usu.nombre as usuario, ing.id_clienteFK as cliente
+                                      FROM inventario inv
+                                      INNER JOIN producto pro ON inv.id_productoFK = pro.id_producto
+                                      INNER JOIN ingresos ing ON inv.id_ingresoFK = ing.id_ingreso
+                                      INNER JOIN usuario usu ON ing.id_usuarioFK = usu.id_usuario");
     
         if ($consulta->rowCount() > 0) {
             echo "<tbody>";
     
             while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
                 echo "<tr>";
-                echo "<td>E".$fila['id_inventario']."</td>";
-                echo "<td>".$fila['fechaingreso']."</td>";
-                echo "<td>".$fila['cantidad']."</td>";
-                echo "<td>".$fila['fw']."</td>";
-    
-                // Obtener el nombre del producto
-                $consultaProducto = $conexion->prepare("SELECT nombre, referencia, tipo FROM producto WHERE id_producto = :id_producto");
-                $consultaProducto->bindParam(':id_producto', $fila['id_productoFK']);
-                $consultaProducto->execute();
-                $producto = $consultaProducto->fetch(PDO::FETCH_ASSOC);
-                echo "<td>".$producto['nombre']."</td>";
-                echo "<td>".$producto['referencia']."</td>";
-                echo "<td>".$producto['tipo']."</td>";
-    
-                // Obtener el nombre del usuario
-                $consultaUsuario = $conexion->prepare("SELECT nombre FROM usuario WHERE id_usuario = :id_usuario");
-                $consultaUsuario->bindParam(':id_usuario', $fila['id_usuarioFK']);
-                $consultaUsuario->execute();
-                $usuario = $consultaUsuario->fetch(PDO::FETCH_ASSOC);
-                echo "<td>".$usuario['nombre']."</td>";
-    
-                echo "<td>".$fila['id_clienteFK']."</td>";
+                echo "<td>E" . $fila['fw'] . "</td>"; // Cambio para mostrar FW de primeras
+                echo "<td>" . $fila['fechaingreso'] . "</td>";
+                echo "<td>" . $fila['cantidad'] . "</td>";
+                echo "<td>" . $fila['nombre'] . "</td>"; // nombre del producto
+                echo "<td>" . $fila['referencia'] . "</td>";
+                echo "<td>" . $fila['tipo'] . "</td>";
+                echo "<td>" . $fila['usuario'] . "</td>"; // nombre del usuario
+                echo "<td>" . $fila['cliente'] . "</td>";
                 echo "</tr>";
             }
     
             echo "</tbody>";
         } else {
-            echo "<tr><td colspan='9'>No se encontraron datos de inventario.</td></tr>";
+            echo "<tr><td colspan='8'>No se encontraron datos de inventario.</td></tr>";
         }
     
         $conexion = null;
     }
-
     public function mostrarConsolidadoProductos() {
         $conexion = new Conexion();
         $consulta = $conexion->query("SELECT p.id_producto, p.nombre AS nombre_producto, p.referencia, p.tipo, i.id_clienteFK, SUM(i.cantidad) AS total_cantidad FROM inventario i INNER JOIN producto p ON i.id_productoFK = p.id_producto GROUP BY i.id_productoFK, i.id_clienteFK");
@@ -236,7 +228,98 @@ class Inventario {
             return false;
         }
     }
-    
-    }
-    
 
+/*     public static function mostrarIngresos() {
+        $conexion = new Conexion();
+        $consulta = $conexion->query("SELECT * FROM ingresos");
+    
+        $html = ""; // Variable para almacenar el HTML de la tabla
+    
+        if ($consulta->rowCount() > 0) {
+            $html .= "<table border='1'>";
+            $html .= "<thead><tr><th>ID Ingreso</th><th>Fecha</th><th>ID Usuario</th><th>ID Cliente</th></tr></thead>";
+            $html .= "<tbody>";
+    
+            while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                $html .= "<tr>";
+                $html .= "<td>" . $fila['id_ingreso'] . "</td>";
+                $html .= "<td>" . $fila['fecha'] . "</td>";
+                $html .= "<td>" . $fila['id_usuarioFK'] . "</td>";
+                $html .= "<td>" . $fila['id_clienteFK'] . "</td>";
+                $html .= "</tr>";
+            }
+    
+            $html .= "</tbody>";
+            $html .= "</table>";
+        } else {
+            $html .= "<p>No se encontraron datos de ingresos.</p>";
+        }
+    
+        $conexion = null;
+    
+        return $html; // Retornar el HTML generado
+    }
+
+    public static function mostrarInventarioPorIngresoFK($id_ingresoFK) {
+    $conexion = new Conexion();
+    $consulta = $conexion->prepare("SELECT * FROM inventario WHERE id_ingresoFK = :id_ingresoFK");
+    $consulta->bindParam(':id_ingresoFK', $id_ingresoFK);
+    $consulta->execute();
+
+    $htmlTablaInventario = ""; // Variable para almacenar el HTML de la tabla
+
+    if ($consulta->rowCount() > 0) {
+        $htmlTablaInventario .= "<h2>Tabla de Inventario para ID de IngresoFK: $id_ingresoFK</h2>";
+        $htmlTablaInventario .= "<table border='1'>";
+        $htmlTablaInventario .= "<thead><tr><th>ID Inventario</th><th>Cantidad</th><th>ID Producto</th></tr></thead>";
+        $htmlTablaInventario .= "<tbody>";
+
+        while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
+            $htmlTablaInventario .= "<tr>";
+            $htmlTablaInventario .= "<td>" . $fila['id_inventario'] . "</td>";
+            $htmlTablaInventario .= "<td>" . $fila['cantidad'] . "</td>";
+            $htmlTablaInventario .= "<td>" . $fila['id_productoFK'] . "</td>";
+            $htmlTablaInventario .= "</tr>";
+        }
+
+        $htmlTablaInventario .= "</tbody>";
+        $htmlTablaInventario .= "</table>";
+    } else {
+        $htmlTablaInventario .= "<p>No se encontraron datos de inventario para el ID de ingresoFK proporcionado.</p>";
+    }
+
+    $conexion = null;
+
+    return $htmlTablaInventario;
+} */
+
+public function obtenerTodosLosInventarios() {
+    $conexion = new Conexion();
+    $consulta = $conexion->query("SELECT * FROM ingresos");
+    return $consulta->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function obtenerTodosLosIngresos() {
+    $conexion = new Conexion();
+    $consulta = $conexion->query("SELECT * FROM ingresos");
+    return $consulta->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function obtenerDatosPorIdIngreso($id_ingreso) {
+    $conexion = new Conexion();
+    $consulta = $conexion->prepare("SELECT i.*, p.nombre AS nombre_producto, p.referencia AS referencia_producto
+                                    FROM inventario i
+                                    INNER JOIN producto p ON i.id_productoFK = p.id_producto
+                                    WHERE i.id_ingresoFK = ?");
+    $consulta->bindParam(1, $id_ingreso, PDO::PARAM_INT);
+    $consulta->execute();
+
+    if ($consulta->rowCount() > 0) {
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        return null;
+    }
+}
+
+
+}

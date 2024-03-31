@@ -71,12 +71,11 @@
 
         <div class="table-responsive">
             <table id="tablaInventario" class="table table-striped table-bordered">
-                <thead>
+                <thead>             
                     <tr>
-                        <th>ID Inventario</th>
+                        <th>ENTRADA</th>
                         <th>Fecha de Ingreso</th>
                         <th>Cantidad</th>
-                        <th>FW</th>
                         <th>Producto</th>
                         <th>Referencia</th>
                         <th>Tipo</th>

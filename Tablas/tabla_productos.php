@@ -1,13 +1,9 @@
-<?php
-    require_once("../clases/producto.php");
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos</title>
+    <title>Tabla de Ingresos</title>
     <!-- Agregar estilos de Bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Agregar estilos de DataTables -->
@@ -23,71 +19,48 @@
         .table-responsive {
             overflow-x: auto;
         }
-        table#tablaProductos {
+        table#tablaIngresos {
             width: 100% !important; /* Asegura que la tabla ocupe todo el ancho disponible */
         }
     </style>
 </head>
 <body>
     <div class="container-fluid" style="width: 90%;">
-        <!-- Botón de Casa -->
-        <a href="../Home/home.html" style="text-decoration: none;">
-            <button type="button" class="btn btn-light mr-2" style="border-radius: 50%; background-color:white;">
-                <i class="fas fa-home" style="font-size: 20px; color: #fe5000;"></i>
-            </button>
-        </a>
         <!-- Título -->
-        <h1 class="mt-5 mb-3">Productos</h1>
-        <!-- Formulario de Búsqueda -->
-        
+        <h1 class="mt-5 mb-3">Tabla de Ingresos</h1>
         <div class="table-responsive">
-            <table id="tablaProductos" class="table table-striped table-bordered">
+            <table id="tablaIngresos" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>ID Producto</th>
-                        <th>Nombre del Producto</th>
-                        <th>Referencia</th>
-                        <th>Cliente</th>
-                        <th>Tipo</th>
-                        <th>Ancho</th>
-                        <th>Alto</th>
-                        <th>Profundo</th>
-                        <th>Nombre del Usuario</th>
+                        <th>ID Ingreso</th>
+                        <th>Fecha de Ingreso</th>
+                        <th>ID Usuario</th>
+                        <th>ID Cliente</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    // Obtener productos utilizando el método obtenerProductos de la clase Producto
-                    $productos = Producto::obtenerProductos();
+                        require_once '../clases/Inventario.php';
 
-                    // Verificar si se obtuvieron productos
-                    if (!empty($productos)) {
-                        foreach ($productos as $producto) {
+                        // Crear una instancia de la clase Inventario
+                        $inventario = new Inventario(null, null);
+
+                        // Obtener los datos de la tabla ingresos
+                        $datos_ingresos = $inventario->obtenerTodosLosIngresos(); 
+
+                        // Iterar sobre los datos e imprimir cada fila
+                        foreach ($datos_ingresos as $dato) {
                             echo "<tr>";
-                            echo "<td>".$producto->id_producto."</td>";
-                            echo "<td>".$producto->nombre."</td>";
-                            echo "<td>".$producto->referencia."</td>";
-                            echo "<td>".$producto->clienteFK."</td>";
-                            echo "<td>".$producto->tipo."</td>";
-                            echo "<td>".$producto->ancho."</td>";
-                            echo "<td>".$producto->alto."</td>";
-                            echo "<td>".$producto->profundo."</td>";
-                            echo "<td>".$producto->nombre_usuario."</td>"; // Aquí se muestra el nombre del usuario
+                            echo "<td>{$dato['id_ingreso']}</td>";
+                            echo "<td>{$dato['fecha']}</td>";
+                            echo "<td>{$dato['id_usuarioFK']}</td>";
+                            echo "<td>{$dato['id_clienteFK']}</td>";
                             echo "</tr>";
                         }
-                    } else {
-                        echo "<tr><td colspan='9'>No se encontraron productos.</td></tr>";
-                    }
-                    ?>
+                    ?>      
                 </tbody>
             </table>
         </div>
-        <!-- Botón de Agregar -->
-        <a href="../formularios/producto.php" style="text-decoration: none;">
-            <button type="button" class="btn btn-success mt-3">
-                <i class="fas fa-plus"></i> Agregar
-            </button>
-        </a>
     </div>
 
     <!-- Agregar scripts de DataTables y Bootstrap al final del cuerpo del documento -->
@@ -96,7 +69,7 @@
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#tablaProductos').DataTable({
+            $('#tablaIngresos').DataTable({
                 "searching": true 
             });
         });
