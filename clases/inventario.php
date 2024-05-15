@@ -293,33 +293,33 @@ class Inventario {
     return $htmlTablaInventario;
 } */
 
-public function obtenerTodosLosInventarios() {
-    $conexion = new Conexion();
-    $consulta = $conexion->query("SELECT * FROM ingresos");
-    return $consulta->fetchAll(PDO::FETCH_ASSOC);
-}
-
-public function obtenerTodosLosIngresos() {
-    $conexion = new Conexion();
-    $consulta = $conexion->query("SELECT * FROM ingresos");
-    return $consulta->fetchAll(PDO::FETCH_ASSOC);
-}
-
-public function obtenerDatosPorIdIngreso($id_ingreso) {
-    $conexion = new Conexion();
-    $consulta = $conexion->prepare("SELECT i.*, p.nombre AS nombre_producto, p.referencia AS referencia_producto
-                                    FROM inventario i
-                                    INNER JOIN producto p ON i.id_productoFK = p.id_producto
-                                    WHERE i.id_ingresoFK = ?");
-    $consulta->bindParam(1, $id_ingreso, PDO::PARAM_INT);
-    $consulta->execute();
-
-    if ($consulta->rowCount() > 0) {
+    public function obtenerTodosLosInventarios() {
+        $conexion = new Conexion();
+        $consulta = $conexion->query("SELECT * FROM ingresos");
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
-    } else {
-        return null;
     }
-}
+
+    public function obtenerTodosLosIngresos() {
+        $conexion = new Conexion();
+        $consulta = $conexion->query("SELECT * FROM ingresos");
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function obtenerDatosPorIdIngreso($id_ingreso) {
+        $conexion = new Conexion();
+        $consulta = $conexion->prepare("SELECT i.*, p.nombre AS nombre_producto, p.referencia AS referencia_producto
+                                        FROM inventario i
+                                        INNER JOIN producto p ON i.id_productoFK = p.id_producto
+                                        WHERE i.id_ingresoFK = ?");
+        $consulta->bindParam(1, $id_ingreso, PDO::PARAM_INT);
+        $consulta->execute();
+
+        if ($consulta->rowCount() > 0) {
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            return null;
+        }
+    }
 
 
 }

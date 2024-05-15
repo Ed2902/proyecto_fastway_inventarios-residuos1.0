@@ -138,7 +138,7 @@
         if (confirm('¿Estás seguro de enviar los datos?')) {
             enviarDatosAlServidor();
             
-             window.location.href = '../Tablas/Tabla_inventariogeneral.php'; 
+          
         }
     }
     </script>
