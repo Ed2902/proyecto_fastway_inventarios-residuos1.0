@@ -3,7 +3,7 @@
 class Conexion extends PDO{
     private $tipo_da_base = "mysql";
     private $host = "localhost";
-    private $nombre_de_base = "inventariofast";
+    private $nombre_de_base = "residuos";
     private $usuario = "root";
     private $contrasena = "";
     public function __construct()
