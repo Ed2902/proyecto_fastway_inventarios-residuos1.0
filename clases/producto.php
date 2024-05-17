@@ -82,37 +82,9 @@
             }
         }
     
-    
-
-        public static function obtenerProductos() {
-            $conexion = new Conexion();
-            $sql = "SELECT producto.id_producto, 
-                           producto.nombre, 
-                           producto.referencia, 
-                           producto.clienteFK, 
-                           producto.tipo, 
-                           producto.ancho, 
-                           producto.alto, 
-                           producto.profundo, 
-                           usuario.nombre AS nombre_usuario 
-                    FROM producto 
-                    INNER JOIN usuario ON producto.id_usuarioFK = usuario.id_usuario";
-        
-            $consulta = $conexion->prepare($sql);
-            
-            try {
-                $consulta->execute();
-                $productos = $consulta->fetchAll(PDO::FETCH_OBJ);
-                return $productos;
-            } catch (PDOException $e) {
-                echo "Error al obtener los productos: " . $e->getMessage();
-                return null;
-            }
-        }
-
         public static function obtenerProductoPorId($idProducto) {
             $conexion = new Conexion();
-            $sql = "SELECT * FROM producto WHERE id_producto = :id";
+            $sql = "SELECT * FROM residuos.producto WHERE id_producto = :id";
             $consulta = $conexion->prepare($sql);
             
             try {
@@ -125,40 +97,8 @@
                 return null;
             }
         }
-
-        public static function obtenerClientes() {
-            $conexion = new Conexion();
-            $sql = "SELECT id_cliente, nombre FROM cliente";
-            $consulta = $conexion->prepare($sql);
-        
-            try {
-                $consulta->execute();
-                $clientes = $consulta->fetchAll(PDO::FETCH_ASSOC);
-                return $clientes;
-            } catch (PDOException $e) {
-                echo "Error al obtener los clientes: " . $e->getMessage();
-                return null;
-            }
-        }
-
-        public static function obtenerNombreUsuarioPorId($idUsuario) {
-            $conexion = new Conexion();
-            $sql = "SELECT nombre FROM usuario WHERE id_usuario = :id";
-            $consulta = $conexion->prepare($sql);
-        
-            try {
-                $consulta->bindParam(':id', $idUsuario);
-                $consulta->execute();
-                $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
-                return $resultado['nombre'];
-            } catch (PDOException $e) {
-                echo "Error al obtener el nombre del usuario: " . $e->getMessage();
-                return null;
-            }
-        }
-
-        
     }
+    ?>
 
 
 

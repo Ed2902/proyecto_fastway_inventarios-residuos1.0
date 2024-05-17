@@ -1,22 +1,25 @@
 var inventarioData = [];  // Array para almacenar los datos del inventario
-function agregarFilaTabla() {
-    var codigoProducto = document.getElementById("CodigoProducto").value;
-    var nombre = document.getElementById("nombre").value;
-    var referencia = document.getElementById("Referencia").value;
-    var tipo = document.getElementById("tipo").value;
-    var clienteFK = document.getElementById("ClienteFK").value;
-    var quienDaIngreso = document.getElementById("QuienDaIngreso").value;
-    var cantidadesAgregar = document.getElementById("CantidadesAgregar").value;
 
-    if (!quienDaIngreso || !cantidadesAgregar) {
+function agregarFilaTabla() {
+    var codigoProducto = document.getElementById("codigoProducto").value;
+    var nombre = document.getElementById("nombre").value;
+    var referencia = document.getElementById("referencia").value;
+    var tipo = document.getElementById("tipo").value;
+    var quienDaIngreso = document.getElementById("quienDaIngreso").value;
+    var kilos = document.getElementById("kilos").value; // Cambiado a kilos
+    var cliente = document.getElementById("cliente").value;
+
+    if (!codigoProducto || !nombre || !referencia || !tipo || !quienDaIngreso || !kilos || !cliente) {
         alert("Todos los campos son obligatorios. Por favor, complete todos los campos.");
         return;
     }
 
-    if (!/^\d+$/.test(cantidadesAgregar)) {
-        alert("Por favor, ingrese un número entero en el campo 'Cantidades a Agregar'.");
+    // Expresión regular para aceptar números enteros y decimales
+    if (!/^(\d+(\.\d+)?|\.\d+)$/.test(kilos)) {
+        alert("Por favor, ingrese un número en el campo 'Kilos a Agregar'.");
         return;
     }
+
 
     var table = document.getElementById("tablaInventario");
     var newRow = table.insertRow(table.rows.length);
@@ -28,14 +31,15 @@ function agregarFilaTabla() {
     var cell5 = newRow.insertCell(4);
     var cell6 = newRow.insertCell(5);
     var cell7 = newRow.insertCell(6);
+    var cell8 = newRow.insertCell(7);
 
     cell1.innerHTML = codigoProducto;
     cell2.innerHTML = nombre;
     cell3.innerHTML = referencia;
     cell4.innerHTML = tipo;
-    cell5.innerHTML = clienteFK;
-    cell6.innerHTML = quienDaIngreso;
-    cell7.innerHTML = cantidadesAgregar;
+    cell5.innerHTML = quienDaIngreso;
+    cell6.innerHTML = kilos; // Cambiado a kilos
+    cell7.innerHTML = cliente;
 
     // Crear botones de acciones
     var actionsDiv = document.createElement("div");
@@ -57,7 +61,7 @@ function agregarFilaTabla() {
     actionsDiv.appendChild(editButton);
     actionsDiv.appendChild(deleteButton);
 
-    cell7.appendChild(actionsDiv);
+    cell8.appendChild(actionsDiv);
 
     // Almacenar datos en el array
     var filaDatos = {
@@ -65,9 +69,9 @@ function agregarFilaTabla() {
         Nombre: nombre,
         Referencia: referencia,
         Tipo: tipo,
-        ClienteFK: clienteFK,
         QuienDaIngreso: quienDaIngreso,
-        CantidadesAgregar: cantidadesAgregar
+        kilos: kilos, // Cambiado a kilos
+        Cliente: cliente
     };
 
     inventarioData.push(filaDatos);
@@ -83,13 +87,13 @@ function editarFila(button) {
     document.getElementById("RowIndex").value = rowIndex;
 
     // Resto de tu código para llenar el formulario con los datos de la fila
-    document.getElementById("CodigoProducto").value = row.cells[0].innerHTML;
-    document.getElementById("nombre").value = row.cells[1].innerHTML; // Nuevo campo agregado
-    document.getElementById("Referencia").value = row.cells[2].innerHTML;
+    document.getElementById("codigoProducto").value = row.cells[0].innerHTML;
+    document.getElementById("nombre").value = row.cells[1].innerHTML;
+    document.getElementById("referencia").value = row.cells[2].innerHTML;
     document.getElementById("tipo").value = row.cells[3].innerHTML;
-    document.getElementById("ClienteFK").value = row.cells[4].innerHTML;
-    document.getElementById("QuienDaIngreso").value = row.cells[5].innerHTML;
-    document.getElementById("CantidadesAgregar").value = row.cells[6].innerHTML;
+    document.getElementById("quienDaIngreso").value = row.cells[4].innerHTML;
+    document.getElementById("kilos").value = row.cells[5].innerHTML; // Cambiado a kilos
+    document.getElementById("cliente").value = row.cells[6].innerHTML;
 
     // Eliminar la fila al editar
     row.parentNode.removeChild(row);
@@ -101,13 +105,13 @@ function eliminarFila(button) {
 }
 
 function limpiarFormulario() {
-    document.getElementById("CodigoProducto").value = "";
-    document.getElementById("nombre").value = ""; // Nuevo campo agregado
-    document.getElementById("Referencia").value = "";
+    document.getElementById("codigoProducto").value = "";
+    document.getElementById("nombre").value = "";
+    document.getElementById("referencia").value = "";
     document.getElementById("tipo").value = "";
-    document.getElementById("ClienteFK").value = "";
-    document.getElementById("QuienDaIngreso").value = "";
-    document.getElementById("CantidadesAgregar").value = "";
+    document.getElementById("quienDaIngreso").value = "";
+    document.getElementById("kilos").value = ""; // Cambiado a kilos
+    document.getElementById("cliente").value = "";
 }
 
 // Función para hacer los campos de entrada no modificables, excepto ciertos campos
@@ -118,7 +122,7 @@ function hacerCamposNoModificablesExceptoAlgunos() {
     // Iteramos sobre cada campo de entrada
     camposEntrada.forEach(function(campo) {
         // Verificamos si el campo no es alguno de los campos que queremos excluir
-        if (campo.id !== 'CodigoProducto' && campo.id !== 'QuienDaIngreso' && campo.id !== 'CantidadesAgregar') {
+        if (campo.id !== 'codigoProducto' && campo.id !== 'quienDaIngreso' && campo.id !== 'kilos' && campo.id !== 'cliente') {
             // Hacemos que el campo sea no modificable
             campo.setAttribute('readonly', 'true');
         }
@@ -133,8 +137,8 @@ function obtenerDatosParaEnviar() {
         var datosFila = {
             id_productoFK: fila.CodigoProducto,
             id_usuarioFK: fila.QuienDaIngreso,
-            cantidad: fila.CantidadesAgregar,
-            id_clienteFK: fila.ClienteFK
+            cantidad: fila.kilos, // Cambiado a kilos
+            cliente: fila.Cliente
         };
         
         datosParaEnviar.push(datosFila);
@@ -165,6 +169,22 @@ function enviarDatosAlServidor() {
 
     // Convertir los datos a JSON
     var datosJSON = JSON.stringify(datosParaEnviar);
+
+    // Configurar la función de devolución de llamada cuando la solicitud se complete
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            // La solicitud fue exitosa
+            console.log('Datos enviados correctamente al servidor.');
+            // Puedes agregar aquí más acciones si lo deseas, como mostrar un mensaje de éxito al usuario
+        } else {
+            // Hubo un error en la solicitud
+            console.error('Error al enviar datos al servidor. Código de estado:', xhr.status);
+            // Puedes agregar aquí más acciones si lo deseas, como mostrar un mensaje de error al usuario
+        }
+    };
+
+    // Configurar la función de devolución de
+
 
     // Configurar la función de devolución de llamada cuando la solicitud se complete
     xhr.onload = function () {
