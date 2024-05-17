@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Guardar el producto en la base de datos
     if ($producto->guardar()) {
         // Redirigir o mostrar un mensaje de éxito
-        header("Location: success.php");
+        header("index.html");
         exit;
     } else {
         // Mostrar un mensaje de error
