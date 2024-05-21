@@ -8,8 +8,9 @@ function agregarFilaTabla() {
     var quienDaIngreso = document.getElementById("quienDaIngreso").value;
     var kilos = document.getElementById("kilos").value; // Cambiado a kilos
     var cliente = document.getElementById("cliente").value;
+    var valorPorKilo = document.getElementById("valorPorKilo").value; // Nuevo campo
 
-    if (!codigoProducto || !nombre || !referencia || !tipo || !quienDaIngreso || !kilos || !cliente) {
+    if (!codigoProducto || !nombre || !referencia || !tipo || !quienDaIngreso || !kilos || !cliente || !valorPorKilo) {
         alert("Todos los campos son obligatorios. Por favor, complete todos los campos.");
         return;
     }
@@ -20,6 +21,11 @@ function agregarFilaTabla() {
         return;
     }
 
+    // Expresión regular para aceptar números enteros y decimales para valorPorKilo
+    if (!/^(\d+(\.\d+)?|\.\d+)$/.test(valorPorKilo)) {
+        alert("Por favor, ingrese un número en el campo 'Valor por Kilo'.");
+        return;
+    }
 
     var table = document.getElementById("tablaInventario");
     var newRow = table.insertRow(table.rows.length);
@@ -32,6 +38,7 @@ function agregarFilaTabla() {
     var cell6 = newRow.insertCell(5);
     var cell7 = newRow.insertCell(6);
     var cell8 = newRow.insertCell(7);
+    var cell9 = newRow.insertCell(8);
 
     cell1.innerHTML = codigoProducto;
     cell2.innerHTML = nombre;
@@ -40,6 +47,7 @@ function agregarFilaTabla() {
     cell5.innerHTML = quienDaIngreso;
     cell6.innerHTML = kilos; // Cambiado a kilos
     cell7.innerHTML = cliente;
+    cell8.innerHTML = valorPorKilo; // Nuevo campo
 
     // Crear botones de acciones
     var actionsDiv = document.createElement("div");
@@ -61,7 +69,7 @@ function agregarFilaTabla() {
     actionsDiv.appendChild(editButton);
     actionsDiv.appendChild(deleteButton);
 
-    cell8.appendChild(actionsDiv);
+    cell9.appendChild(actionsDiv);
 
     // Almacenar datos en el array
     var filaDatos = {
@@ -71,7 +79,8 @@ function agregarFilaTabla() {
         Tipo: tipo,
         QuienDaIngreso: quienDaIngreso,
         kilos: kilos, // Cambiado a kilos
-        Cliente: cliente
+        Cliente: cliente,
+        ValorPorKilo: valorPorKilo // Nuevo campo
     };
 
     inventarioData.push(filaDatos);
@@ -94,6 +103,7 @@ function editarFila(button) {
     document.getElementById("quienDaIngreso").value = row.cells[4].innerHTML;
     document.getElementById("kilos").value = row.cells[5].innerHTML; // Cambiado a kilos
     document.getElementById("cliente").value = row.cells[6].innerHTML;
+    document.getElementById("valorPorKilo").value = row.cells[7].innerHTML; // Nuevo campo
 
     // Eliminar la fila al editar
     row.parentNode.removeChild(row);
@@ -112,6 +122,7 @@ function limpiarFormulario() {
     document.getElementById("quienDaIngreso").value = "";
     document.getElementById("kilos").value = ""; // Cambiado a kilos
     document.getElementById("cliente").value = "";
+    document.getElementById("valorPorKilo").value = ""; // Nuevo campo
 }
 
 // Función para hacer los campos de entrada no modificables, excepto ciertos campos
@@ -122,12 +133,17 @@ function hacerCamposNoModificablesExceptoAlgunos() {
     // Iteramos sobre cada campo de entrada
     camposEntrada.forEach(function(campo) {
         // Verificamos si el campo no es alguno de los campos que queremos excluir
-        if (campo.id !== 'codigoProducto' && campo.id !== 'quienDaIngreso' && campo.id !== 'kilos' && campo.id !== 'cliente') {
+        if (campo.id !== 'codigoProducto' && campo.id !== 'quienDaIngreso' && campo.id !== 'kilos' && campo.id !== 'cliente' && campo.id !== 'valorPorKilo') { // Nuevo campo
             // Hacemos que el campo sea no modificable
             campo.setAttribute('readonly', 'true');
         }
     });
 }
+
+// Llamamos a la función después de cargar el DOM
+document.addEventListener('DOMContentLoaded', function() {
+    hacerCamposNoModificablesExceptoAlgunos();
+});
 
 // Función para obtener los datos para enviar al servidor
 function obtenerDatosParaEnviar() {
@@ -154,7 +170,14 @@ document.addEventListener('DOMContentLoaded', function() {
     hacerCamposNoModificablesExceptoAlgunos();
 });
 
+
+
 function enviarDatosAlServidor() {
+
+    if (inventarioData.length === 0) {
+        alert("No hay datos en la tabla para enviar.");
+        return;
+    }else{
     // Obtener los datos a enviar
     var datosParaEnviar = obtenerDatosParaEnviar();
 
@@ -208,4 +231,6 @@ function enviarDatosAlServidor() {
 
     // Enviar la solicitud con los datos JSON
     xhr.send(datosJSON);
+    }
+
 }

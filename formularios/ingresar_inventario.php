@@ -56,6 +56,10 @@
                                     <label for="cliente" class="form-label">Cliente</label>
                                     <input type="text" class="form-control" id="cliente" name="cliente" placeholder="Cliente">
                                 </div>
+                                <div class="col-md-6">
+                                    <label for="valorPorKilo" class="form-label">Valor por Kilo</label>
+                                    <input type="text" class="form-control" id="valorPorKilo" name="valorPorKilo" placeholder="Valor por Kilo">
+                                </div>
                             </div>
                             <button type="button" onclick="agregarFilaTabla()" class="boton_agregar btn btn-info btn-lg">Agregar</button>
                             <button type="button" onclick="limpiarFormulario()" class="boton_cancelar btn btn-secondary btn-lg">Cancelar</button>
@@ -76,6 +80,7 @@
                                         <th>Quién da el ingreso</th>
                                         <th>kilos</th>
                                         <th>Cliente</th>
+                                        <th>Valor por Kilo</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
