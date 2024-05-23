@@ -1,23 +1,23 @@
 var inventarioData = [];  // Array para almacenar los datos del inventario
 
 function agregarFilaTabla() {
-    var codigoProducto = document.getElementById("codigoProducto").value;
+    var id_productoFK = document.getElementById("id_productoFK").value; // Cambiado a id_productoFK
     var nombre = document.getElementById("nombre").value;
     var referencia = document.getElementById("referencia").value;
     var tipo = document.getElementById("tipo").value;
-    var quienDaIngreso = document.getElementById("quienDaIngreso").value;
-    var kilos = document.getElementById("kilos").value; // Cambiado a kilos
-    var cliente = document.getElementById("cliente").value;
+    var id_usuarioFK = document.getElementById("id_usuarioFK").value; // Cambiado a id_usuarioFK
+    var peso = document.getElementById("peso").value; // Cambiado a peso
+    var id_proveedorFK = document.getElementById("id_proveedorFK").value; // Cambiado a id_proveedorFK
     var valorPorKilo = document.getElementById("valorPorKilo").value; // Nuevo campo
 
-    if (!codigoProducto || !nombre || !referencia || !tipo || !quienDaIngreso || !kilos || !cliente || !valorPorKilo) {
+    if (!id_productoFK || !nombre || !referencia || !tipo || !id_usuarioFK || !peso || !id_proveedorFK || !valorPorKilo) {
         alert("Todos los campos son obligatorios. Por favor, complete todos los campos.");
         return;
     }
 
     // Expresión regular para aceptar números enteros y decimales
-    if (!/^(\d+(\.\d+)?|\.\d+)$/.test(kilos)) {
-        alert("Por favor, ingrese un número en el campo 'Kilos a Agregar'.");
+    if (!/^(\d+(\.\d+)?|\.\d+)$/.test(peso)) {
+        alert("Por favor, ingrese un número en el campo 'Peso a Agregar'.");
         return;
     }
 
@@ -40,13 +40,13 @@ function agregarFilaTabla() {
     var cell8 = newRow.insertCell(7);
     var cell9 = newRow.insertCell(8);
 
-    cell1.innerHTML = codigoProducto;
+    cell1.innerHTML = id_productoFK; // Cambiado a id_productoFK
     cell2.innerHTML = nombre;
     cell3.innerHTML = referencia;
     cell4.innerHTML = tipo;
-    cell5.innerHTML = quienDaIngreso;
-    cell6.innerHTML = kilos; // Cambiado a kilos
-    cell7.innerHTML = cliente;
+    cell5.innerHTML = id_usuarioFK; // Cambiado a id_usuarioFK
+    cell6.innerHTML = peso; // Cambiado a peso
+    cell7.innerHTML = id_proveedorFK; // Cambiado a id_proveedorFK
     cell8.innerHTML = valorPorKilo; // Nuevo campo
 
     // Crear botones de acciones
@@ -73,14 +73,14 @@ function agregarFilaTabla() {
 
     // Almacenar datos en el array
     var filaDatos = {
-        CodigoProducto: codigoProducto,
+        id_productoFK: id_productoFK, // Cambiado a id_productoFK
         Nombre: nombre,
         Referencia: referencia,
         Tipo: tipo,
-        QuienDaIngreso: quienDaIngreso,
-        kilos: kilos, // Cambiado a kilos
-        Cliente: cliente,
-        ValorPorKilo: valorPorKilo // Nuevo campo
+        id_usuarioFK: id_usuarioFK, // Cambiado a id_usuarioFK
+        peso: peso, // Cambiado a peso
+        id_proveedorFK: id_proveedorFK, // Cambiado a id_proveedorFK
+        valorPorKilo: valorPorKilo // Nuevo campo
     };
 
     inventarioData.push(filaDatos);
@@ -96,13 +96,13 @@ function editarFila(button) {
     document.getElementById("RowIndex").value = rowIndex;
 
     // Resto de tu código para llenar el formulario con los datos de la fila
-    document.getElementById("codigoProducto").value = row.cells[0].innerHTML;
+    document.getElementById("id_productoFK").value = row.cells[0].innerHTML; // Cambiado a id_productoFK
     document.getElementById("nombre").value = row.cells[1].innerHTML;
     document.getElementById("referencia").value = row.cells[2].innerHTML;
     document.getElementById("tipo").value = row.cells[3].innerHTML;
-    document.getElementById("quienDaIngreso").value = row.cells[4].innerHTML;
-    document.getElementById("kilos").value = row.cells[5].innerHTML; // Cambiado a kilos
-    document.getElementById("cliente").value = row.cells[6].innerHTML;
+    document.getElementById("id_usuarioFK").value = row.cells[4].innerHTML; // Cambiado a id_usuarioFK
+    document.getElementById("peso").value = row.cells[5].innerHTML; // Cambiado a peso
+    document.getElementById("id_proveedorFK").value = row.cells[6].innerHTML; // Cambiado a id_proveedorFK
     document.getElementById("valorPorKilo").value = row.cells[7].innerHTML; // Nuevo campo
 
     // Eliminar la fila al editar
@@ -115,13 +115,13 @@ function eliminarFila(button) {
 }
 
 function limpiarFormulario() {
-    document.getElementById("codigoProducto").value = "";
+    document.getElementById("id_productoFK").value = ""; // Cambiado a id_productoFK
     document.getElementById("nombre").value = "";
     document.getElementById("referencia").value = "";
     document.getElementById("tipo").value = "";
-    document.getElementById("quienDaIngreso").value = "";
-    document.getElementById("kilos").value = ""; // Cambiado a kilos
-    document.getElementById("cliente").value = "";
+    document.getElementById("id_usuarioFK").value = ""; // Cambiado a id_usuarioFK
+    document.getElementById("peso").value = ""; // Cambiado a peso
+    document.getElementById("id_proveedorFK").value = ""; // Cambiado a id_proveedorFK
     document.getElementById("valorPorKilo").value = ""; // Nuevo campo
 }
 
@@ -133,7 +133,7 @@ function hacerCamposNoModificablesExceptoAlgunos() {
     // Iteramos sobre cada campo de entrada
     camposEntrada.forEach(function(campo) {
         // Verificamos si el campo no es alguno de los campos que queremos excluir
-        if (campo.id !== 'codigoProducto' && campo.id !== 'quienDaIngreso' && campo.id !== 'kilos' && campo.id !== 'cliente' && campo.id !== 'valorPorKilo') { // Nuevo campo
+        if (campo.id !== 'id_productoFK' && campo.id !== 'id_usuarioFK' && campo.id !== 'peso' && campo.id !== 'id_proveedorFK' && campo.id !== 'valorPorKilo') { // Nuevo campo
             // Hacemos que el campo sea no modificable
             campo.setAttribute('readonly', 'true');
         }
@@ -144,93 +144,68 @@ function hacerCamposNoModificablesExceptoAlgunos() {
 document.addEventListener('DOMContentLoaded', function() {
     hacerCamposNoModificablesExceptoAlgunos();
 });
-
 // Función para obtener los datos para enviar al servidor
 function obtenerDatosParaEnviar() {
-    var datosParaEnviar = [];
-
-    inventarioData.forEach(function(fila) {
-        var datosFila = {
-            id_productoFK: fila.CodigoProducto,
-            id_usuarioFK: fila.QuienDaIngreso,
-            cantidad: fila.kilos, // Cambiado a kilos
-            cliente: fila.Cliente
-        };
-        
-        datosParaEnviar.push(datosFila);
-    });
+    var datosParaEnviar = inventarioData.map(fila => ({
+        peso: fila.peso,
+        valorkilo: fila.valorPorKilo,
+        id_proveedorFK: fila.id_proveedorFK,
+        id_productoFK: fila.id_productoFK,
+        id_usuarioFK: fila.id_usuarioFK,
+        id_ingresoFK: null // No tenemos este valor aquí
+    }));
 
     console.log('Datos para enviar:', datosParaEnviar);
 
     return datosParaEnviar;
 }
 
-// Llamamos a la función después de cargar el DOM
-document.addEventListener('DOMContentLoaded', function() {
-    hacerCamposNoModificablesExceptoAlgunos();
-});
-
-
 
 function enviarDatosAlServidor() {
-
     if (inventarioData.length === 0) {
         alert("No hay datos en la tabla para enviar.");
         return;
-    }else{
-    // Obtener los datos a enviar
-    var datosParaEnviar = obtenerDatosParaEnviar();
+    } else {
+        // Obtener los datos a enviar
+        var datosParaEnviar = obtenerDatosParaEnviar();
 
-    // Mostrar los datos que se van a enviar en la consola
-    console.log('Datos a enviar:', datosParaEnviar);
+        // Mostrar los datos que se van a enviar en la consola
+        console.log('Datos a enviar:', datosParaEnviar);
 
-    // Crear una solicitud AJAX
-    var xhr = new XMLHttpRequest();
-    var url = '../objetos_guardar/guardar_inventario.php';
-    xhr.open('POST', url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
+        // Convertir los datos a JSON y mostrar la cadena JSON en la consola antes de enviarla al servidor
+        var datosJSON = JSON.stringify(datosParaEnviar);
+        console.log('Datos JSON a enviar:', datosJSON);
 
-    // Convertir los datos a JSON
-    var datosJSON = JSON.stringify(datosParaEnviar);
+        // Crear una solicitud AJAX
+        var xhr = new XMLHttpRequest();
+        var url = '../objetos_guardar/guardar_inventario.php';
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
 
-    // Configurar la función de devolución de llamada cuando la solicitud se complete
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            // La solicitud fue exitosa
-            console.log('Datos enviados correctamente al servidor.');
-            // Puedes agregar aquí más acciones si lo deseas, como mostrar un mensaje de éxito al usuario
-        } else {
-            // Hubo un error en la solicitud
-            console.error('Error al enviar datos al servidor. Código de estado:', xhr.status);
+        // Configurar la función de devolución de llamada cuando la solicitud se complete
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // La solicitud fue exitosa
+                console.log('Datos enviados correctamente al servidor.');
+                // Puedes agregar aquí más acciones si lo deseas, como mostrar un mensaje de éxito al usuario
+                alert('Datos enviados correctamente al servidor.');
+            } else {
+                // Hubo un error en la solicitud
+                console.error('Error al enviar datos al servidor. Código de estado:', xhr.status);
+                // Puedes agregar aquí más acciones si lo deseas, como mostrar un mensaje de error al usuario
+                alert('Error al enviar datos al servidor. Código de estado: ' + xhr.status);
+            }
+        };
+
+        // Configurar la función de devolución de llamada para errores de red
+        xhr.onerror = function () {
+            // Hubo un error de red
+            console.error('Error de red al enviar datos al servidor.');
             // Puedes agregar aquí más acciones si lo deseas, como mostrar un mensaje de error al usuario
-        }
-    };
+            alert('Error de red al enviar datos al servidor.');
+        };
 
-    // Configurar la función de devolución de
-
-
-    // Configurar la función de devolución de llamada cuando la solicitud se complete
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            // La solicitud fue exitosa
-            console.log('Datos enviados correctamente al servidor.');
-            // Puedes agregar aquí más acciones si lo deseas, como mostrar un mensaje de éxito al usuario
-        } else {
-            // Hubo un error en la solicitud
-            console.error('Error al enviar datos al servidor. Código de estado:', xhr.status);
-            // Puedes agregar aquí más acciones si lo deseas, como mostrar un mensaje de error al usuario
-        }
-    };
-
-    // Configurar la función de devolución de llamada para errores de red
-    xhr.onerror = function () {
-        // Hubo un error de red
-        console.error('Error de red al enviar datos al servidor.');
-        // Puedes agregar aquí más acciones si lo deseas, como mostrar un mensaje de error al usuario
-    };
-
-    // Enviar la solicitud con los datos JSON
-    xhr.send(datosJSON);
+        // Enviar la solicitud con los datos JSON
+        xhr.send(datosJSON);
     }
-
 }

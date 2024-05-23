@@ -1,0 +1,13 @@
+Error al guardar inventario: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'id_usuarioFK' cannot be nullError al guardar inventario: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'id_usuarioFK' cannot be nullError al guardar inventario: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'id_usuarioFK' cannot be nullError al guardar inventario: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'id_usuarioFK' cannot be nullJSON recibido: Array decodificado: JSON recibido: Array decodificado: JSON recibido: Array decodificado: JSON recibido: Array decodificado: JSON recibido: Array decodificado: JSON recibido: [{"id_productoFK":"900956","id_usuarioFK":"1","cantidad":"1","id_proveedorFK":"1","valorPorKilo":"1"}]Array decodificado: Array
+(
+    [0] => Array
+        (
+            [id_productoFK] => 900956
+            [id_usuarioFK] => 1
+            [cantidad] => 1
+            [id_proveedorFK] => 1
+            [valorPorKilo] => 1
+        )
+
+)
+Error al guardar inventario: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`residuos`.`ingreso`, CONSTRAINT `ingreso_ibfk_1` FOREIGN KEY (`id_ingreso`) REFERENCES `inventario` (`id_ingresoFK`))JSON recibido: Array decodificado: JSON recibido: Array decodificado: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: JSON recibido: [{"peso":"1","valorkilo":"1","id_proveedorFK":"1","id_productoFK":"900956","id_usuarioFK":"1","id_ingresoFK":null}]JSON recibido: 

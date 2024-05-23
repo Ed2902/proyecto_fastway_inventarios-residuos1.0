@@ -1,40 +1,56 @@
 <?php
 
 require_once("conexion.php");
-require_once("ingresos.php");
 
 class Inventario {
     protected $id_inventario;
-    protected $cantidad;
+    protected $peso;
+    protected $valorkilo;
+    protected $id_proveedorFK;
     protected $id_productoFK;
     protected $id_usuarioFK;
-    protected $id_clienteFK;
     protected $id_ingresoFK;
-  
 
-    public function __construct($cantidad, $id_productoFK, $id_ingresoFK, $id_usuarioFK, $id_clienteFK, $id_inventario = null) {
-        $this->cantidad = $cantidad;
+    public function __construct($peso, $valorkilo, $id_proveedorFK, $id_productoFK, $id_usuarioFK) {
+        $this->peso = $peso;
+        $this->valorkilo = $valorkilo;
+        $this->id_proveedorFK = $id_proveedorFK;
         $this->id_productoFK = $id_productoFK;
-        $this->id_ingresoFK = $id_ingresoFK;
         $this->id_usuarioFK = $id_usuarioFK;
-        $this->id_clienteFK = $id_clienteFK;
-        $this->id_inventario = $id_inventario;
     }
-    
+
     public function getIdInventario() {
         return $this->id_inventario;
     }
 
-    public function setIdInventario($id_inventario) {
+    protected function setIdInventario($id_inventario) {
+        // No permitir modificar el id_inventario directamente
+        // Este valor debe ser autoincrementable en la base de datos
         $this->id_inventario = $id_inventario;
     }
 
-    public function getCantidad() {
-        return $this->cantidad;
+    public function getPeso() {
+        return $this->peso;
     }
 
-    public function setCantidad($cantidad) {
-        $this->cantidad = $cantidad;
+    public function setPeso($peso) {
+        $this->peso = $peso;
+    }
+
+    public function getValorkilo() {
+        return $this->valorkilo;
+    }
+
+    public function setValorkilo($valorkilo) {
+        $this->valorkilo = $valorkilo;
+    }
+
+    public function getIdProveedorFK() {
+        return $this->id_proveedorFK;
+    }
+
+    public function setIdProveedorFK($id_proveedorFK) {
+        $this->id_proveedorFK = $id_proveedorFK;
     }
 
     public function getIdProductoFK() {
@@ -45,6 +61,16 @@ class Inventario {
         $this->id_productoFK = $id_productoFK;
     }
 
+    public function getIdIngresoFK() {
+        return $this->id_ingresoFK;
+    }
+
+    protected function setIdIngresoFK($id_ingresoFK) {
+        // No permitir modificar el id_ingresoFK directamente
+        // Este valor debe ser asignado automáticamente en el método guardar()
+        $this->id_ingresoFK = $id_ingresoFK;
+    }
+
     public function getIdUsuarioFK() {
         return $this->id_usuarioFK;
     }
@@ -53,54 +79,50 @@ class Inventario {
         $this->id_usuarioFK = $id_usuarioFK;
     }
 
-    public function getIdClienteFK() {
-        return $this->id_clienteFK;
-    }
-
-    public function setIdClienteFK($id_clienteFK) {
-        $this->id_clienteFK = $id_clienteFK;
-    }
-
-    public function getIdIngresoFK() {
-        return $this->id_ingresoFK;
-    }
-
-    public function setIdIngresoFK($id_ingresoFK) {
-        $this->id_ingresoFK = $id_ingresoFK;
-    }
-
     public function guardar() {
         $conexion = new Conexion();
-        $consulta = $conexion->prepare("INSERT INTO ingresos (id_usuarioFK, id_clienteFK) VALUES (:id_usuarioFK, :id_clienteFK)");
-    
+        
+        $fecha = date("Y-m-d");
+        $valortotal = $this->peso * $this->valorkilo; 
+        
+        $consultaIngreso = $conexion->prepare("INSERT INTO ingreso (fecha, valortotal, id_usuarioFK) VALUES (:fecha, :valortotal, :id_usuarioFK)");
+        
         try {
-            $consulta->bindParam(':id_usuarioFK', $this->id_usuarioFK);
-            $consulta->bindParam(':id_clienteFK', $this->id_clienteFK);
-            $consulta->execute();
-    
+            $consultaIngreso->bindParam(':fecha', $fecha);
+            $consultaIngreso->bindParam(':valortotal', $valortotal);
+            $consultaIngreso->bindParam(':id_usuarioFK', $this->id_usuarioFK);
+            $consultaIngreso->execute();
+            
             // Obtener el ID del ingreso recién insertado
-            $this->id_ingresoFK = $conexion->lastInsertId();
-    
-            // Ahora podemos guardar el inventario con el ID de ingreso correspondiente
-            $consulta = $conexion->prepare("INSERT INTO inventario (cantidad, id_productoFK, id_ingresoFK) VALUES (:cantidad, :id_productoFK, :id_ingresoFK)");
-            $consulta->bindParam(':cantidad', $this->cantidad);
-            $consulta->bindParam(':id_productoFK', $this->id_productoFK);
-            $consulta->bindParam(':id_ingresoFK', $this->id_ingresoFK); // Utilizamos el ID de ingreso recién insertado
-            $consulta->execute();
-    
+            $id_ingreso = $conexion->lastInsertId();
+            $this->setIdIngresoFK($id_ingreso); // Actualizar id_ingresoFK con el nuevo valor
+            
+            // Guardar datos de inventario
+            $consultaInventario = $conexion->prepare("INSERT INTO inventario (peso, valorkilo, id_proveedorFK, id_productoFK, id_ingresoFK) VALUES (:peso, :valorkilo, :id_proveedorFK, :id_productoFK, :id_ingresoFK)");
+            
+            $consultaInventario->bindParam(':peso', $this->peso);
+            $consultaInventario->bindParam(':valorkilo', $this->valorkilo);
+            $consultaInventario->bindParam(':id_proveedorFK', $this->id_proveedorFK);
+            $consultaInventario->bindParam(':id_productoFK', $this->id_productoFK);
+            $consultaInventario->bindParam(':id_ingresoFK', $id_ingreso); // Utilizar el ID de ingreso recién insertado
+            
+            $consultaInventario->execute();
+            
             // Obtener el ID del inventario recién insertado
-            $this->id_inventario = $conexion->lastInsertId();
-    
+            $this->setIdInventario($conexion->lastInsertId());
+            
             return true;
         } catch (PDOException $e) {
-            // Registrar el error en un archivo de registro
+            // Registrar y manejar el error
             error_log("Error al guardar inventario: " . $e->getMessage(), 3, "error_log.txt");
-            // Mostrar un mensaje de error detallado
             echo "Error al guardar inventario: " . $e->getMessage();
-            return false; // En caso de error, devuelve falso
+            return false;
         }
     }
+}
+?>
 
+/* 
     public function mostrarEnTabla() {
         $conexion = new Conexion();
         // Ajuste en la consulta para no seleccionar id_inventario y ordenar adecuadamente los campos
@@ -251,6 +273,6 @@ class Inventario {
         } else {
             return null;
         }
-    }
+    } */
 }
 ?>
